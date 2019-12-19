@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-//The class need the comparsion functions.
+//The class need the comparsion functions.   //Mina
 public class Date { //The date is in format (dd/mm/yyyy:hh).
 	private int day;
 	private int month;
