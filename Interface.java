@@ -301,7 +301,7 @@ public class Interface {
 		}
 	}
 	
-	private void calculateDateBasedOnWorkingHours(Task task, int actualWorkingHours) { // Mina
+	private void calculateDateBasedOnWorkingHours(Task task, int actualWorkingHours) { // Fares
 		//Modify the acutalStartDate and the actualDueDate of the input task based on the input working hours.
 	}
 }
