@@ -140,7 +140,7 @@ public class Interface {
 				break;
 			}
 
-			case "Construct Analysis Report": {
+			case "Construct Analysis Report": { //Mina
 				List<Task> tasksList = controlUnit.loadTasks();
 				List<SubTask> subTasksList = controlUnit.loadSubTasks();
 				
@@ -154,7 +154,7 @@ public class Interface {
 				break;
 			}
 
-			case "Construct Project Plan Before Start": {
+			case "Construct Project Plan Before Start": { //Mina
 				List<Task> tasksList = controlUnit.loadTasks();
 				List<SubTask> subTasksList = controlUnit.loadSubTasks();
 				
@@ -164,7 +164,7 @@ public class Interface {
 				break;
 			}
 
-			case "Construct Project Plan After Finish": {
+			case "Construct Project Plan After Finish": { //Mina
 				List<Task> tasksList = controlUnit.loadTasks();
 				List<SubTask> subTasksList = controlUnit.loadSubTasks();
 				
@@ -301,7 +301,7 @@ public class Interface {
 		}
 	}
 	
-	private void calculateDateBasedOnWorkingHours(Task task, int actualWorkingHours) {
+	private void calculateDateBasedOnWorkingHours(Task task, int actualWorkingHours) { // Mina
 		//Modify the acutalStartDate and the actualDueDate of the input task based on the input working hours.
 	}
 }
