@@ -2,16 +2,16 @@
 public class MileStone {
 	private int ID;
 	private String name;
-	private String date;
+	private Date date;
 	
-	public MileStone(int ID, String name, String date) {
+	public MileStone(int ID, String name, Date date) {
 		this.ID = ID;
 		this.name = name;
 		this.date = date;
 	}
 	
 	public MileStone() {
-		this(0, "", "");
+		this(0, "", null);
 	}
 	
 	public void setID(int ID) {
@@ -22,7 +22,7 @@ public class MileStone {
 		this.name = name;
 	}
 	
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	
@@ -34,7 +34,7 @@ public class MileStone {
 		return name;
 	}
 	
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 	

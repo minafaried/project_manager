@@ -1,4 +1,6 @@
+import java.util.Scanner;
 
+//The class need the comparsion functions.
 public class Date { //The date is in format (dd/mm/yyyy:hh).
 	private int day;
 	private int month;
@@ -46,6 +48,22 @@ public class Date { //The date is in format (dd/mm/yyyy:hh).
 	
 	public int getHours() {
 		return hours;
+	}
+	
+	public void input() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.print("Enter the day");
+		day = scanner.nextInt();
+		
+		System.out.print("Enter the month");
+		month = scanner.nextInt();
+		
+		System.out.print("Enter the year");
+		year = scanner.nextInt();
+		
+		System.out.print("Enter the hours");
+		hours = scanner.nextInt(); scanner.nextLine();
 	}
 	
 	public String toString() {

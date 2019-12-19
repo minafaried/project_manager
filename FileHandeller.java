@@ -1,6 +1,6 @@
 
 public class FileHandeller {
-	final private String projectFile = "";
+	final private String projectData = "";
 	final private String beforeStartPlanFile = "";
 	final private String afterFinishPlanFile = "";
 
@@ -8,21 +8,29 @@ public class FileHandeller {
 
 	}
 
-//	public void createNewProject(Project project) {
-//
-//	}
-//
-//	public Project loadProjectData() {
-//		Project project = null;
-//
-//		return project;
-//	}
-//
-//	public void saveBeforeStartPlan() { // Takes the data of the plan and save it into the file.
-//
-//	}
-//
-//	public void saveAfterFinishPlan() { // Takes the data of the plan and save it into the file.
-//
-//	}
+	public void saveProject(Project currentProject) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Project loadProject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void constructProjectPlanBeforeStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void constructProjectPlanAfterFinish() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void clearProjectData() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

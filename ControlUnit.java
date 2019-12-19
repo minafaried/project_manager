@@ -2,172 +2,133 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ControlUnit {
-	private DatabaseHandeller databaseHandeller;
+	private DatabaseHandeller dataBaseHandeller;
 	private FileHandeller fileHandeller;
 
 	public ControlUnit() {
-		databaseHandeller = new DatabaseHandeller();
+		dataBaseHandeller = new DatabaseHandeller();
 		fileHandeller = new FileHandeller();
 	}
 	
 	public void createProject(Project currentProject) {
-		// TODO Auto-generated method stub
-		
+		fileHandeller.saveProject(currentProject);
 	}
 
 	public Project loadProject() {
-		// TODO Auto-generated method stub
-		return null;
+		Project project = fileHandeller.loadProject();
+		return project;
 	}
 
 	public List<Task> loadTasks() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Task> tasksList = dataBaseHandeller.getAllTasks();
+		return tasksList;
 	}
 
 	public Task loadTask(int taskID) {
-		// TODO Auto-generated method stub
-		return null;
+		Task task = dataBaseHandeller.getTaskByID(taskID);
+		return task;
 	}
 
-	public List<Task> loadSubTasks() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<SubTask> loadSubTasks() {
+		List<SubTask> subTasksList = dataBaseHandeller.getAllSubTasks();
+		return subTasksList;
 	}
 
 	public SubTask loadSubTask(int taskID) {
-		// TODO Auto-generated method stub
-		return null;
+		SubTask subTask = dataBaseHandeller.getSubTaskByID(taskID);
+		return subTask;
 	}
 
 	public List<MileStone> loadMileStones() {
-		// TODO Auto-generated method stub
-		return null;
+		List<MileStone> mileStonesList = dataBaseHandeller.getAllMileStones();
+		return mileStonesList;
 	}
 
 	public MileStone loadMileStone(int mileStoneID) {
-		// TODO Auto-generated method stub
-		return null;
+		MileStone mileStone = dataBaseHandeller.getMileStoneByID(mileStoneID);
+		return mileStone;
 	}
 
 	public List<TeamMember> loadTeamMembers() {
-		// TODO Auto-generated method stub
-		return null;
+		List<TeamMember> teamMembersList = dataBaseHandeller.getAllTeamMembers();
+		return teamMembersList;
 	}
 
 	public TeamMember loadTeamMember(int teamMemberID) {
-		// TODO Auto-generated method stub
-		return null;
+		TeamMember teamMember = dataBaseHandeller.getTeamMemberByID(teamMemberID);
+		return teamMember;
 	}
 
 	public List<TeamMember> loadTeamMembers(Task task) {
-		// TODO Auto-generated method stub
-		return null;
+		List<TeamMember> taskTeamMembersList = null;
+		if(task instanceof SubTask) {
+			taskTeamMembersList = dataBaseHandeller.getTeamMembersOnSubTask((SubTask) task);
+		} else {
+			taskTeamMembersList = dataBaseHandeller.getTeamMembersOnTask(task);
+		}
+		return taskTeamMembersList;
 	}
 
 	public List<SubTask> loadSubTasks(Task task) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Task> loadAllTasks() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<SubTask> loadAllSubTask() {
-		// TODO Auto-generated method stub
-		return null;
+		List<SubTask> subTasksList = dataBaseHandeller.getSubTasksOfTask(task);
+		return subTasksList;
 	}
 
 	public void constructProjectPlanBeforeStart() {
-		// TODO Auto-generated method stub
-		
+		fileHandeller.constructProjectPlanBeforeStart();
 	}
 
 	public void constructProjectPlanAfterFinish() {
-		// TODO Auto-generated method stub
-		
+		fileHandeller.constructProjectPlanAfterFinish();
 	}
 
 	public void destoryProjectPlan() {
-		// TODO Auto-generated method stub
-		
+		fileHandeller.clearProjectData();
+		dataBaseHandeller.resetDataBase();
 	}
 
 	public Task addNewTask(Task task) {
-		// TODO Auto-generated method stub
-		return null;
+		task = dataBaseHandeller.addNewTask(task);
+		return task;
 	}
 
-	public SubTask addNewSubTask(SubTask subTask) {
-		// TODO Auto-generated method stub
-		return null;
+	public SubTask addNewSubTask(Task task, SubTask subTask) {
+		subTask = dataBaseHandeller.addNewSubTask(task, subTask);
+		return subTask;
 	}
 
 	public MileStone addNewMileStone(MileStone mileStone) {
-		// TODO Auto-generated method stub
-		return null;
+		mileStone = dataBaseHandeller.addNewMileStone(mileStone);
+		return mileStone;
 	}
 
 	public TeamMember addTeamMember(TeamMember teamMember) {
-		// TODO Auto-generated method stub
-		return null;
+		teamMember = dataBaseHandeller.addNewTeamMember(teamMember);
+		return teamMember;
 	}
 
 	public void addTeamMemberToTask(TeamMember teamMember, Task task) {
-		// TODO Auto-generated method stub
-		
+		dataBaseHandeller.assignTeamMemberToTask(teamMember, task);
 	}
 
 	public void addTeamMemberToSubTask(TeamMember teamMember, SubTask subTask) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void saveSubTask(SubTask subTask) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void saveProject(Project currentProject) {
-		// TODO Auto-generated method stub
-		
+		dataBaseHandeller.assignTeamMemberToSubTask(teamMember, subTask);
 	}
 
 	public void saveTask(Task task) {
-		// TODO Auto-generated method stub
-		
+		dataBaseHandeller.saveTask(task);
+	}
+	
+	public void saveSubTask(SubTask subTask) {
+		dataBaseHandeller.saveSubTask(subTask);
+	}
+
+	public void saveProject(Project currentProject) {
+		fileHandeller.saveProject(currentProject);
 	}
 
 	public List<Task> loadDependentTasks(Task task) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-//	public void resetDataBase() {
-//		databaseHandeller.resetDataBase();
-//	}
-//
-//	public List<Task> loadTasks(boolean isSubTask) {
-//		List<Task> tasksList = new ArrayList<Task>();
-//		if (isSubTask) {
-//			tasksList = databaseHandeller.loadAllSubTasks();
-//		} else {
-//			tasksList = databaseHandeller.loadAllTasks();
-//		}
-//		return tasksList;
-//	}
-//
-//	public Task loadTask(int taskID, boolean isSubTask) {
-//		Task task = null;
-//		if (isSubTask) {
-//
-//		} else {
-//
-//		}
-//
-//		return task;
-//	}
 }

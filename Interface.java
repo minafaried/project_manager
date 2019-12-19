@@ -63,8 +63,8 @@ public class Interface {
 			}
 
 			case "Display All SubTasks": {
-				List<Task> tasksList = controlUnit.loadSubTasks();
-				ioHandeller.displayTasks(tasksList);
+				List<SubTask> tasksList = controlUnit.loadSubTasks();
+				ioHandeller.displaySubTasks(tasksList);
 				break;
 			}
 
@@ -141,8 +141,8 @@ public class Interface {
 			}
 
 			case "Construct Analysis Report": {
-				List<Task> tasksList = controlUnit.loadAllTasks();
-				List<SubTask> subTasksList = controlUnit.loadAllSubTask();
+				List<Task> tasksList = controlUnit.loadTasks();
+				List<SubTask> subTasksList = controlUnit.loadSubTasks();
 				
 				List<Task> finishedOnTimeTasks = null;
 				List<Task> notFinishedOnTimeTasks = null;
@@ -155,8 +155,8 @@ public class Interface {
 			}
 
 			case "Construct Project Plan Before Start": {
-				List<Task> tasksList = controlUnit.loadAllTasks();
-				List<SubTask> subTasksList = controlUnit.loadAllSubTask();
+				List<Task> tasksList = controlUnit.loadTasks();
+				List<SubTask> subTasksList = controlUnit.loadSubTasks();
 				
 				//Some Code.
 				
@@ -165,8 +165,8 @@ public class Interface {
 			}
 
 			case "Construct Project Plan After Finish": {
-				List<Task> tasksList = controlUnit.loadAllTasks();
-				List<SubTask> subTasksList = controlUnit.loadAllSubTask();
+				List<Task> tasksList = controlUnit.loadTasks();
+				List<SubTask> subTasksList = controlUnit.loadSubTasks();
 				
 				//Some Code.
 				
@@ -186,27 +186,30 @@ public class Interface {
 			}
 
 			case "Update Expected Deliverable By ID": {
-				int expectedID = ioHandeller.ExpectedDeliverableIDInput();
+				int expectedID = ioHandeller.expectedDeliverableIDInput();
 				Deliverable wantedDeliverable = getDeliverableByID(currentProject, expectedID);
-				wantedDeliverable = forms.updateExpectedDeliverableForm();
+				wantedDeliverable = forms.updateExpectedDeliverableForm(wantedDeliverable);
 				break;
 			}
 
 			case "Delete Expected Deliverable By ID": {
-				int expectedID = ioHandeller.ExpectedDeliverableIDInput();
+				int expectedID = ioHandeller.expectedDeliverableIDInput();
 				deleteDeliverableByID(currentProject, expectedID);
 				break;
 			}
 
 			case "New Task": {
-				Task task = forms.newTaskForm();
+				Task task = forms.newTaskForm(currentProject.getWorkingHours());
 				task = controlUnit.addNewTask(task);
 				break;
 			}
 
 			case "New SubTask": {
-				SubTask subTask = forms.newSubTaskForm();
-				subTask = controlUnit.addNewSubTask(subTask);
+				int taskID = ioHandeller.taskIDInput();
+				Task task = controlUnit.loadTask(taskID);
+				
+				SubTask subTask = forms.newSubTaskForm(currentProject.getWorkingHours());
+				subTask = controlUnit.addNewSubTask(task, subTask);
 				break;
 			}
 
@@ -223,8 +226,8 @@ public class Interface {
 			}
 			
 			case "Mark Task As A Dependent For Another Task": { //Big Problem.
-				int taskID = ioHandeller.TaskIDInput();
-				int dependentTaskID = ioHandeller.DependentTaskIDInput();
+				int taskID = ioHandeller.taskIDInput();
+				int dependentTaskID = ioHandeller.dependentTaskIDInput();
 				break;
 			}
 			
@@ -269,12 +272,11 @@ public class Interface {
 			}
 			
 			case "Exit The Program": {
+				controlUnit.saveProject(currentProject);
 				break loop;
 			}
 			}
 		}
-		
-		controlUnit.saveProject(currentProject);
 	}
 	
 	private Deliverable getDeliverableByID(Project project, int ID) {

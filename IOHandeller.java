@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Scanner;
 
 public class IOHandeller {
 	public IOHandeller() {
@@ -6,12 +7,12 @@ public class IOHandeller {
 	}
 
 	public void displayStartMenu() {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	public String startMenuInput() {
-		// TODO Auto-generated method stub
+		Scanner scanner = new Scanner(System.in);
 		return null;
 	}
 
@@ -20,8 +21,10 @@ public class IOHandeller {
 		
 	}
 
+	//Long function.
 	public String mainMenuInput() {
-		// TODO Auto-generated method stub
+
+		Scanner scanner = new Scanner(System.in);
 		return null;
 	}
 
@@ -36,7 +39,7 @@ public class IOHandeller {
 	}
 
 	public int taskIDInput() {
-		// TODO Auto-generated method stub
+		Scanner scanner = new Scanner(System.in);
 		return 0;
 	}
 
@@ -56,7 +59,7 @@ public class IOHandeller {
 	}
 
 	public int mileStoneIDInput() {
-		// TODO Auto-generated method stub
+		Scanner scanner = new Scanner(System.in);
 		return 0;
 	}
 
@@ -71,7 +74,7 @@ public class IOHandeller {
 	}
 
 	public int teamMemberIDInput() {
-		// TODO Auto-generated method stub
+		Scanner scanner = new Scanner(System.in);
 		return 0;
 	}
 
@@ -100,23 +103,18 @@ public class IOHandeller {
 		
 	}
 
-	public int ExpectedDeliverableIDInput() {
-		// TODO Auto-generated method stub
+	public int expectedDeliverableIDInput() {
+		Scanner scanner = new Scanner(System.in);
 		return 0;
 	}
 
-	public int TaskIDInput() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int DependentTaskIDInput() {
-		// TODO Auto-generated method stub
+	public int dependentTaskIDInput() {
+		Scanner scanner = new Scanner(System.in);
 		return 0;
 	}
 
 	public int actualWorkingHoursInput() {
-		// TODO Auto-generated method stub
+		Scanner scanner = new Scanner(System.in);
 		return 0;
 	}
 }

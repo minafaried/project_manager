@@ -7,7 +7,7 @@ public class Project implements Serializable {
 	private Date startDate;
 	private Date dueDate;
 	private List<Deliverable> expectedDeliverables;
-	private int workingHours;
+	private int workingHours; //hours / day.
 	private String startOfWeek;
 	
 	//!!Warning these functions shallow copy the list of expected deliverables.
@@ -28,7 +28,7 @@ public class Project implements Serializable {
 	public static String sunDay() {
 		return "Sunday";
 	}
-
+	
 	public static String monDay() {
 		return "Monday";
 	}
