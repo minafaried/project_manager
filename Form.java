@@ -91,7 +91,7 @@ public class Form {
 		return deliverable;
 	}
 
-	public Task newTaskForm(int hoursPerDay) {
+	public Task newTaskForm(int hoursPerDay) { //Fares
 		Scanner scanner = new Scanner(System.in);
 		Task task = new Task();
 		
