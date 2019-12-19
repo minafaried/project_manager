@@ -1,8 +1,8 @@
 
 public class FileHandeller {
-	final private String projectData = "";
-	final private String beforeStartPlanFile = "";
-	final private String afterFinishPlanFile = "";
+	final private String projectData = "ProjectData.txt";
+	final private String beforeStartPlanFile = "BeforeStart.xlsx";
+	final private String afterFinishPlanFile = "AfterFinish.xlsx";
 
 	public FileHandeller() {
 
