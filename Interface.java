@@ -140,37 +140,94 @@ public class Interface {
 				break;
 			}
 
-			case "Construct Analysis Report": { //Mina
+			case "Construct Analysis Report": { // Mina
 				List<Task> tasksList = controlUnit.loadTasks();
 				List<SubTask> subTasksList = controlUnit.loadSubTasks();
-				
-				List<Task> finishedOnTimeTasks = null;
-				List<Task> notFinishedOnTimeTasks = null;
-				
-				//Some code to define which tasks finished on time and which are not.
-				
+
+				List<Task> finishedOnTimeTasks = new ArrayList<Task>();
+				List<Task> notFinishedOnTimeTasks = new ArrayList<Task>();
+				for (Task task : tasksList) {
+					if (task.getActualStartDate().compare(task.getPlannedStartDate()) == 0
+							|| task.getActualStartDate().compare(task.getPlannedStartDate()) == -1) {
+						if (task.getActualDueDate().compare(task.getPlannedDueDate()) == 0
+								|| task.getActualDueDate().compare(task.getPlannedDueDate()) == -1) {
+							finishedOnTimeTasks.add(task);
+						} else {
+							notFinishedOnTimeTasks.add(task);
+						}
+					} else {
+						if (task.getActualDueDate().compare(task.getPlannedDueDate()) == 0
+								|| task.getActualDueDate().compare(task.getPlannedDueDate()) == -1) {
+							finishedOnTimeTasks.add(task);
+						} else {
+							notFinishedOnTimeTasks.add(task);
+						}
+					}
+				}
+				for (SubTask subtask : subTasksList) {
+					if (subtask.getActualStartDate().compare(subtask.getPlannedStartDate()) == 0
+							|| subtask.getActualStartDate().compare(subtask.getPlannedStartDate()) == -1) {
+						if (subtask.getActualDueDate().compare(subtask.getPlannedDueDate()) == 0
+								|| subtask.getActualDueDate().compare(subtask.getPlannedDueDate()) == -1) {
+							finishedOnTimeTasks.add(subtask);
+						} else {
+							notFinishedOnTimeTasks.add(subtask);
+						}
+					} else {
+						if (subtask.getActualDueDate().compare(subtask.getPlannedDueDate()) == 0
+								|| subtask.getActualDueDate().compare(subtask.getPlannedDueDate()) == -1) {
+							finishedOnTimeTasks.add(subtask);
+						} else {
+							notFinishedOnTimeTasks.add(subtask);
+						}
+					}
+				}
 				ioHandeller.displayOnTimeTasks(finishedOnTimeTasks);
 				ioHandeller.displayNotOnTimeTasks(notFinishedOnTimeTasks);
 				break;
 			}
 
-			case "Construct Project Plan Before Start": { //Mina
+			case "Construct Project Plan Before Start": { // Mina
 				List<Task> tasksList = controlUnit.loadTasks();
 				List<SubTask> subTasksList = controlUnit.loadSubTasks();
-				
-				//Some Code.
-				
-				controlUnit.constructProjectPlanBeforeStart();
+
+				// Some Code.
+				int[]x_axis=new int[tasksList.size()+subTasksList.size()];
+				Date []y_axis_start=new Date[tasksList.size()+subTasksList.size()];
+				Date []y_axis_finished=new Date[tasksList.size()+subTasksList.size()];
+				for (int i = 0; i < tasksList.size(); i++) {
+					x_axis[i]=tasksList.get(i).getID();
+					y_axis_start[i]=tasksList.get(i).getPlannedStartDate();
+					y_axis_finished[i]=tasksList.get(i).getPlannedDueDate();
+				}
+				for (int i = 0; tasksList.size() <tasksList.size()+subTasksList.size() ; i++) {
+					x_axis[i]=subTasksList.get(i-tasksList.size()).getID();
+					y_axis_start[i]=subTasksList.get(i-tasksList.size()).getPlannedStartDate();
+					y_axis_finished[i]=subTasksList.get(i-tasksList.size()).getPlannedDueDate();
+				}
+				controlUnit.constructProjectPlanBeforeStart(x_axis,y_axis_start,y_axis_finished);
 				break;
 			}
 
-			case "Construct Project Plan After Finish": { //Mina
+			case "Construct Project Plan After Finish": { // Mina
 				List<Task> tasksList = controlUnit.loadTasks();
 				List<SubTask> subTasksList = controlUnit.loadSubTasks();
-				
-				//Some Code.
-				
-				controlUnit.constructProjectPlanAfterFinish();
+
+				// Some Code.
+				int[]x_axis=new int[tasksList.size()+subTasksList.size()];
+				Date []y_axis_start=new Date[tasksList.size()+subTasksList.size()];
+				Date []y_axis_finished=new Date[tasksList.size()+subTasksList.size()];
+				for (int i = 0; i < tasksList.size(); i++) {
+					x_axis[i]=tasksList.get(i).getID();
+					y_axis_start[i]=tasksList.get(i).getActualStartDate();
+					y_axis_finished[i]=tasksList.get(i).getActualDueDate();
+				}
+				for (int i = 0; tasksList.size() <tasksList.size()+subTasksList.size() ; i++) {
+					x_axis[i]=subTasksList.get(i-tasksList.size()).getID();
+					y_axis_start[i]=subTasksList.get(i-tasksList.size()).getActualStartDate();
+					y_axis_finished[i]=subTasksList.get(i-tasksList.size()).getActualDueDate();
+				}
+				controlUnit.constructProjectPlanAfterFinish(x_axis,y_axis_start,y_axis_finished);
 				break;
 			}
 
