@@ -1,5 +1,5 @@
 CREATE TABLE [Task] (
-  [taskId] int,
+  [taskId] int IDENTITY(1,1),
   [workingHours] int Not NULL,
   [plannedStartDate] dateTime not null, 
   [plannedDueDate] dateTime not null,
@@ -10,7 +10,7 @@ CREATE TABLE [Task] (
 );
 
 CREATE TABLE [teamMember] (
-  [teamMemberId] int,
+  [teamMemberId] int IDENTITY(1,1),
   [name] varchar(20) not null,
   [title] varchar(20) not null,
   [workingHours] int not null,
@@ -18,7 +18,7 @@ CREATE TABLE [teamMember] (
 );
 
 CREATE TABLE [mileStone] (
-  [mileStoneId] int,
+  [mileStoneId] int IDENTITY(1,1),
   [name] varchar(20) not null,
   [date] dateTime not null,
   PRIMARY KEY ([mileStoneId])
