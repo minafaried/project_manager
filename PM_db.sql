@@ -5,7 +5,6 @@ CREATE TABLE [Task] (
   [plannedDueDate] varchar(20),
   [actualStartDate] varchar(20),
   [actualDueDate] varchar(20),
-  [name] varchar(20),
   [parentTaskId] int,
   PRIMARY KEY ([taskId])
 );
