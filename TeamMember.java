@@ -2,7 +2,7 @@
 public class TeamMember {
 	private int ID;
 	private String name;
-	private String title;
+	private String title;// job.
 	private int workingHours;
 	
 	public TeamMember(int ID, String name, String title, int workingHours) {
