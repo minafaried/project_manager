@@ -18,12 +18,12 @@ public class FileHandeller { //omar
 		return null;
 	}
 
-	public void constructProjectPlanBeforeStart() {
+	public void constructProjectPlanBeforeStart(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void constructProjectPlanAfterFinish() {
+	public void constructProjectPlanAfterFinish(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished) {
 		// TODO Auto-generated method stub
 		
 	}
