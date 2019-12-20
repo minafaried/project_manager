@@ -74,13 +74,14 @@ public class ControlUnit {
 		return subTasksList;
 	}
 
-	public void constructProjectPlanBeforeStart() {
-		fileHandeller.constructProjectPlanBeforeStart();
+	public void constructProjectPlanBeforeStart(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished) {
+		fileHandeller.constructProjectPlanBeforeStart(x_axis,y_axis_start,y_axis_finished);
 	}
 
-	public void constructProjectPlanAfterFinish() {
-		fileHandeller.constructProjectPlanAfterFinish();
+	public void constructProjectPlanAfterFinish(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished) {
+		fileHandeller.constructProjectPlanAfterFinish(x_axis,y_axis_start,y_axis_finished);
 	}
+
 
 	public void destoryProjectPlan() {
 		fileHandeller.clearProjectData();
