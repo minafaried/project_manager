@@ -219,7 +219,7 @@ public class IOHandeller { // Badr
 		// TODO Auto-generated method stub
 		for(int i = 0; i < subTasksList.size(); i++)
 		{
-			System.out.println(i + " : " + subTasksList.get(i).toString());
+			subTasksList.get(i).display();
 		}
 	}
 
@@ -227,7 +227,7 @@ public class IOHandeller { // Badr
 		// TODO Auto-generated method stub
 		for(int i = 0; i < finishedOnTimeTasks.size(); i++)
 		{
-			System.out.println(i + " : " + finishedOnTimeTasks.get(i).toString());
+			finishedOnTimeTasks.get(i).display();
 		}
 	}
 
@@ -235,7 +235,7 @@ public class IOHandeller { // Badr
 		// TODO Auto-generated method stub
 		for(int i = 0; i < notFinishedOnTimeTasks.size(); i++)
 		{
-			System.out.println(i + " : " + notFinishedOnTimeTasks.get(i).toString());
+			notFinishedOnTimeTasks.get(i).display();
 		}
 	}
 
