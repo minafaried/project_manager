@@ -8,10 +8,10 @@ public class Date { // The date is in format (dd/mm/yyyy:hh).
 	private int hours;
 
 	public Date(int day, int month, int year, int hours) {
-		this.day = 0;
-		this.month = 0;
-		this.year = 0;
-		this.hours = 0;
+		this.day = day;
+		this.month = month;
+		this.year = year;
+		this.hours = hours;
 	}
 
 	public Date() {
