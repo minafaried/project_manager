@@ -471,7 +471,27 @@ public class DatabaseHandeller {  // Don't forget to change the local host in th
 
 	public List<TeamMember> getTeamMembersOnSubTask(SubTask subTask) {// Badr
 		// TODO Auto-generated method stub
-		return null;
+		List <TeamMember> tm = new ArrayList<TeamMember>(); 
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
+
+		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+				Statement stmt = con.createStatement();) {
+			String SQL = "select * from teamMember where teamMemberId  in ( select WORKS_ON.teamMemberId from WORKS_ON where  WORKS_ON.taskId = " + subTask +")"; 
+			ResultSet rs = stmt.executeQuery(SQL);
+			while(rs.next()){
+				TeamMember t = new TeamMember();
+				t.setID(rs.getInt("teamMemberId"));
+				t.setName(rs.getString("name"));
+				t.setTitle(rs.getString("title"));
+				t.setWorkingHours(rs.getInt("workingHours"));
+				tm.add(t);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+
+		return tm;
 	}
 
 	public void resetDataBase() { // omar
