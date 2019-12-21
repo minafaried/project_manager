@@ -2,7 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
-public class DatabaseHandeller {  // Don't forget to change the local host in the connection according to which laptop we use
+public class DatabaseHandeller {
+	
+	private String databaseIP="DESKTOP-R87PDJN";
+	
+	// Don't forget to change the local host in the connection according to which laptop we use
 	public DatabaseHandeller() {
 
 	}
@@ -493,45 +497,149 @@ public class DatabaseHandeller {  // Don't forget to change the local host in th
 
 		return tm;
 	}
-
-	public void resetDataBase() { // omar
-		// TODO Auto-generated method stub
-
+//*********************************************************************
+	public void resetDataBase() throws ClassNotFoundException, SQLException { // omar
+		
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
+		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		Statement stmt = con.createStatement();
+		String SQL1 = "DELETE FROM Task;";
+		String SQL2 = "DELETE FROM mileStone;";
+		String SQL3 = "DELETE FROM teamMember;";
+		String SQL4 = "DELETE FROM DEPENDS_ON;";
+		String SQL5 = "DELETE FROM WORKS_ON;";
+		ResultSet res1 = stmt.executeQuery(SQL1);
+		ResultSet res2 = stmt.executeQuery(SQL2);
+		ResultSet res3 = stmt.executeQuery(SQL3);
+		ResultSet res4 = stmt.executeQuery(SQL4);
+		ResultSet res5 = stmt.executeQuery(SQL5);
 	}
-
-	public Task addNewTask(Task task) { // omar
-		// TODO Auto-generated method stub
-		return null;
+//---------------------------------------------------------------------
+	@SuppressWarnings("deprecation")
+	public Task addNewTask(Task task) throws SQLException { // omar
+		
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
+		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		Statement stmt = con.createStatement();
+		String SQL = "INSERT INTO Task " + " VALUES ( , task.getWorkingHours() , task.getPlannedStartDate() , task.getPlannedDueDate() , task.getActualStartDate() , task.getActualDueDate() , -1);";
+		ResultSet res = stmt.executeQuery(SQL);
+		Task t= new Task();
+		Date date= new Date();
+		res.next();
+		t.setID(res.getInt("taskid"));
+		t.setWorkingHours(res.getInt("workingHours"));
+		java.sql.Date sqldate;
+		sqldate=res.getDate("plannedStartDate");
+		date.setYear(sqldate.getYear());
+		date.setMonth(sqldate.getMonth());
+		date.setDay(sqldate.getDay());
+		t.setPlannedStartDate(date);
+		sqldate=res.getDate("plannedDueDate");
+		date.setYear(sqldate.getYear());
+		date.setMonth(sqldate.getMonth());
+		date.setDay(sqldate.getDay());
+		t.setPlannedDueDate(date);
+		sqldate=res.getDate("actualStartDate");
+		date.setYear(sqldate.getYear());
+		date.setMonth(sqldate.getMonth());
+		date.setDay(sqldate.getDay());
+		t.setActualStartDate(date);
+		sqldate=res.getDate("actualDueDate");
+		date.setYear(sqldate.getYear());
+		date.setMonth(sqldate.getMonth());
+		date.setDay(sqldate.getDay());
+		t.setActualDueDate(date);
+		return t;
 	}
-
-	public SubTask addNewSubTask(Task task, SubTask subTask) { // omar
-		// TODO Auto-generated method stub
-		return null;
+//---------------------------------------------------------------------
+	@SuppressWarnings("deprecation")
+	public SubTask addNewSubTask(Task task, SubTask subTask) throws SQLException { // omar
+		
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
+		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		Statement stmt = con.createStatement();
+		String SQL = "INSERT INTO Task " + " VALUES ( , subTask.getWorkingHours() , subTask.getPlannedStartDate() , subTask.getPlannedDueDate() , subTask.getActualStartDate() , subTask.getActualDueDate() , task.getID());";
+		ResultSet res = stmt.executeQuery(SQL);
+		SubTask s= new SubTask();
+		Date date= new Date();
+		res.next();
+		s.setID(res.getInt("taskid"));
+		s.setWorkingHours(res.getInt("workingHours"));
+		java.sql.Date sqldate;
+		sqldate=res.getDate("plannedStartDate");
+		date.setYear(sqldate.getYear());
+		date.setMonth(sqldate.getMonth());
+		date.setDay(sqldate.getDay());
+		s.setPlannedStartDate(date);
+		sqldate=res.getDate("plannedDueDate");
+		date.setYear(sqldate.getYear());
+		date.setMonth(sqldate.getMonth());
+		date.setDay(sqldate.getDay());
+		s.setPlannedDueDate(date);
+		sqldate=res.getDate("actualStartDate");
+		date.setYear(sqldate.getYear());
+		date.setMonth(sqldate.getMonth());
+		date.setDay(sqldate.getDay());
+		s.setActualStartDate(date);
+		sqldate=res.getDate("actualDueDate");
+		date.setYear(sqldate.getYear());
+		date.setMonth(sqldate.getMonth());
+		date.setDay(sqldate.getDay());
+		s.setActualDueDate(date);
+		s.setParentID(res.getInt("parentTaskId"));
+		return s;
 	}
-
-	public TeamMember addNewTeamMember(TeamMember teamMember) {// omar
-		// TODO Auto-generated method stub
-		return null;
+//---------------------------------------------------------------------
+	public TeamMember addNewTeamMember(TeamMember teamMember) throws SQLException {// omar
+		
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
+		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		Statement stmt = con.createStatement();
+		String SQL = "INSERT INTO teamMember " + " VALUES (teamMember.getID() , teamMember.getName() , teamMember.getTitle() , teamMember.getWorkingHours());";
+		ResultSet res = stmt.executeQuery(SQL);
+		res.next();
+		TeamMember tm= new TeamMember();
+		tm.setID(res.getInt("teamMemberid"));
+		tm.setName(res.getString("name"));
+		tm.setTitle(res.getString("title"));
+		tm.setWorkingHours(res.getInt("workingHours"));
+		return tm;
 	}
-
-	public void assignTeamMemberToTask(TeamMember teamMember, Task task) {// omar
-		// TODO Auto-generated method stub
-
+//---------------------------------------------------------------------
+	public void assignTeamMemberToTask(TeamMember teamMember, Task task , int workingDays) throws SQLException {// omar
+		
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
+		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		Statement stmt = con.createStatement();
+		String SQL = "INSERT INTO WORKS_ON "+ " VALUES (task.getID() , teamMember.getID() , workingDays);";
+		ResultSet res = stmt.executeQuery(SQL);
 	}
-
-	public void assignTeamMemberToSubTask(TeamMember teamMember, SubTask subTask) {// omar
-		// TODO Auto-generated method stub
-
+//---------------------------------------------------------------------
+	public void assignTeamMemberToSubTask(TeamMember teamMember, SubTask subTask, int workingDays) throws SQLException {// omar
+		
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
+		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		Statement stmt = con.createStatement();
+		String SQL = "INSERT INTO WORKS_ON "+ " VALUES (subTask.getID() , teamMember.getID() , workingDays);";
+		ResultSet res = stmt.executeQuery(SQL);
 	}
-
-	public void saveTask(Task task) {// omar
-		// TODO Auto-generated method stub
-
+//---------------------------------------------------------------------
+	public void saveTask(Task task) throws SQLException {// omar
+		
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
+		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		Statement stmt = con.createStatement();
+		String SQL = "UPDATE Task set workingHours="+task.getWorkingHours()+", plannedStartDate="+task.getPlannedStartDate()+", plannedDueDate="+task.getPlannedDueDate()+", actualStartDate="+task.getActualStartDate()+", actualDueDate="+task.getActualDueDate()+", parentTaskId="+-1+"WHERE taskid="+task.getID()+";";
+		ResultSet res = stmt.executeQuery(SQL);
 	}
-
-	public void saveSubTask(SubTask subTask) { // omar
-		// TODO Auto-generated method stub
-
+//---------------------------------------------------------------------
+	public void saveSubTask(SubTask subTask) throws SQLException { // omar
+		
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
+		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		Statement stmt = con.createStatement();
+		String SQL = "UPDATE Task set workingHours="+subTask.getWorkingHours()+", plannedStartDate="+subTask.getPlannedStartDate()+", plannedDueDate="+subTask.getPlannedDueDate()+", actualStartDate="+subTask.getActualStartDate()+", actualDueDate="+subTask.getActualDueDate()+", parentTaskId="+-1+" , parentTaskId=+"+subTask.getParentID()+"WHERE taskid="+subTask.getID()+";";
+		ResultSet res = stmt.executeQuery(SQL);
 	}
-
 }
+//*********************************************************************
