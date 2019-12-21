@@ -9,7 +9,7 @@ public class DatabaseHandeller {  // Don't forget to change the local host in th
 
 //1433
 	@SuppressWarnings("deprecation")
-	public List<Task> getAllTasks() { // mina not finished
+	public List<Task> getAllTasks() { // mina
 		List<Task> tasks = new ArrayList<Task>();
 
 		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
