@@ -343,9 +343,40 @@ public class DatabaseHandeller {  // Don't forget to change the local host in th
 		return teammember;
 	}
 
-	public MileStone addNewMileStone(MileStone mileStone) { // Badr
+	public MileStone addNewMileStone(MileStone mileStone) { //Badr
 		// TODO Auto-generated method stub
-		return null;
+		MileStone mile = new MileStone();
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
+
+    	try (Connection con = DriverManager.getConnection(connectionUrl,"root","root"); 
+        		Statement stmt = con.createStatement();) 
+    	{
+    		String SQL = "insert into mileStone (name,date) values ( " +"'"+ mileStone.getName() + "'" + "," + "'"+ mileStone.getDate().getYear() + "-" + 
+    	    mileStone.getDate().getMonth() + '-' +  mileStone.getDate().getDay() + " " + mileStone.getDate().getHours()+ ":00:00" + "'"  + ");"; 
+    		stmt.executeUpdate(SQL);
+    		//System.out.println(SQL);
+    	}catch (Exception e) {
+			System.out.println(e);
+			
+		}
+
+		try (Connection s = DriverManager.getConnection(connectionUrl, "root", "root");
+				Statement stmt = s.createStatement();) {
+			
+            String SQL="select * from mileStone where name='"+mileStone.getName()+"';";
+            //System.out.println(SQL);
+            ResultSet rs= stmt.executeQuery(SQL);
+            rs.next();
+            mile.setID(rs.getInt("mileStoneId"));
+            mile.setDate(mileStone.getDate());
+            mile.setName(mileStone.getName());  
+            return mile;
+    	}
+    	catch (Exception e) {
+    		System.out.println(e);
+			return null;
+		}
+		
 	}
 
 	public TeamMember getTeamMemberByID(int teamMemberID) {// mina
