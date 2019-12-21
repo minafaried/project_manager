@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
-public class DatabaseHandeller {
+public class DatabaseHandeller {  // Don't forget to change the local host in the connection according to which laptop we use
 	public DatabaseHandeller() {
 
 	}
