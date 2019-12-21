@@ -310,17 +310,60 @@ public class DatabaseHandeller {  // Don't forget to change the local host in th
 		return subtasks;
 	}
 
-	public List<MileStone> getAllMileStones() { // Badr
+	public List<MileStone> getAllMileStones() throws SQLException, ClassNotFoundException { // Badr
 		// TODO Auto-generated method stub
-		return null;
+
+		List<MileStone> mile = new ArrayList<MileStone>();
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
+		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+				Statement stmt = con.createStatement();) {
+			String SQL = "select * from mileStone";
+			ResultSet rs = stmt.executeQuery(SQL);
+			java.util.Date date1 = null;
+			Date d = new Date();
+			while (rs.next()) {
+				date1 = rs.getDate("date");
+				d.setDay(date1.getDay());
+				// d.setHours(date1.getHours());
+				d.setMonth(date1.getMonth());
+				d.setYear(date1.getYear());
+				mile.add(new MileStone(rs.getInt("mileStoneId"), rs.getString("name"), d));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+		// System.out.println("Done");
+
+		return mile;
 	}
 
 	public MileStone getMileStoneByID(int mileStoneID) { // Badr
 		// TODO Auto-generated method stub
-		return null;
+		MileStone mile = new MileStone();
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
+		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+				Statement stmt = con.createStatement();) {
+			String SQL = "select * from mileStone where mileStone = " + mileStoneID + ";";
+			ResultSet rs = stmt.executeQuery(SQL);
+			java.util.Date date1 = null;
+			Date d = new Date();
+			mile.setID(rs.getInt("mileStineId"));
+			;
+			mile.setName(rs.getString("name"));
+			d.setDay(date1.getDay());
+			// d.setHours(date1.getHours());
+			d.setMonth(date1.getMonth());
+			d.setYear(date1.getYear());
+			return mile;
+
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
 	}
 
-	public List<TeamMember> getAllTeamMembers() {// mina
+	public List<TeamMember> getAllTeamMembers() {// Badr
 		List<TeamMember> teammember = new ArrayList<TeamMember>();
 		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
 
@@ -379,7 +422,7 @@ public class DatabaseHandeller {  // Don't forget to change the local host in th
 		
 	}
 
-	public TeamMember getTeamMemberByID(int teamMemberID) {// mina
+	public TeamMember getTeamMemberByID(int teamMemberID) {// Badr
 		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
@@ -403,7 +446,27 @@ public class DatabaseHandeller {  // Don't forget to change the local host in th
 
 	public List<TeamMember> getTeamMembersOnTask(Task task) {// Badr
 		// TODO Auto-generated method stub
-		return null;
+		List <TeamMember> tm = new ArrayList<TeamMember>(); 
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
+
+		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+				Statement stmt = con.createStatement();) {
+			String SQL = "select * from teamMember where teamMemberId  in ( select WORKS_ON.teamMemberId from WORKS_ON where  WORKS_ON.taskId = " + task +")"; 
+			ResultSet rs = stmt.executeQuery(SQL);
+			while(rs.next()){
+				TeamMember t = new TeamMember();
+				t.setID(rs.getInt("teamMemberId"));
+				t.setName(rs.getString("name"));
+				t.setTitle(rs.getString("title"));
+				t.setWorkingHours(rs.getInt("workingHours"));
+				tm.add(t);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+
+		return tm;
 	}
 
 	public List<TeamMember> getTeamMembersOnSubTask(SubTask subTask) {// Badr
