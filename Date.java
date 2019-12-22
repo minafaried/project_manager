@@ -67,7 +67,25 @@ public class Date implements Serializable { // The date is in format (dd/mm/yyyy
 		hours = scanner.nextInt();
 		scanner.nextLine();
 	}
+	
+	public Date increment(Date date, int days) { //Doesn't use or modify any data of the calling object.
+		Date newDate = new Date();
+		
+		return newDate;
+	}
+	
+	public Date decrement(Date date, int days) { //Doesn't use or modify any data of the calling object.
+		Date newDate = new Date();
+		
+		return newDate;
+	}
 
+	public int difference(Date Date1, Date Date2) { //Doesn't use or modify any data of the calling object.
+		int daysDifference = 0;
+		
+		return daysDifference;	
+	}
+	
 	public String toString() {
 		return day + "/" + month + "/" + year + ":" + hours;
 	}

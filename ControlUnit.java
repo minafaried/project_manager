@@ -144,12 +144,12 @@ public class ControlUnit {
 		dataBaseHandeller.assignTeamMemberToSubTask(teamMember, subTask);
 	}
 
-	public void saveTask(Task task) throws SQLException {
-		dataBaseHandeller.modifyTaskWorkingHours(task);
+	public void saveTask(Task task, int actualWorkingDays) throws SQLException {
+		dataBaseHandeller.modifyTaskWorkingHours(task, actualWorkingDays);
 	}
 
-	public void saveSubTask(SubTask subTask) throws SQLException {
-		dataBaseHandeller.modifySubTaskWorkingHours(subTask);
+	public void saveSubTask(SubTask subTask, int actualWorkingDays) throws SQLException {
+		dataBaseHandeller.modifySubTaskWorkingHours(subTask, actualWorkingDays);
 	}
 
 	public void saveProject(Project currentProject) throws IOException {

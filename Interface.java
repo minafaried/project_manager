@@ -332,7 +332,8 @@ public class Interface {
 				
 				Task task = controlUnit.loadTask(taskID);
 				task.setWorkingHours(acutalWorkingHours);
-				controlUnit.saveTask(task);
+				int actualWorkingDays = acutalWorkingHours * currentProject.getWorkingHours();
+				controlUnit.saveTask(task, actualWorkingDays);
 			}
 			
 			case "Insert Actual Working Hours To SubTask": {
@@ -341,7 +342,8 @@ public class Interface {
 				
 				SubTask subTask = controlUnit.loadSubTask(taskID);
 				subTask.setWorkingHours(acutalWorkingHours);
-				controlUnit.saveSubTask(subTask);
+				int actualWorkingDays = acutalWorkingHours * currentProject.getWorkingHours();
+				controlUnit.saveSubTask(subTask, actualWorkingDays);
 			}
 			
 			case "Exit The Program": {
