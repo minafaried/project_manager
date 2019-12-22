@@ -721,28 +721,28 @@ public class DatabaseHandeller {
 		}
 	}
 
-	public void modifyTaskWorkingHours(Task task) throws SQLException {
+	public void modifyTaskWorkingHours(Task task, int actualWorkingDays) throws SQLException {
 		List<Task> tasksList = getAllTasks();
 		List<SubTask> subTasksList = getAllSubTasks();
-		updateDataBaseOnTask(tasksList, subTasksList, task);
+		updateDataBaseOnTask(tasksList, subTasksList, task, actualWorkingDays);
 		saveAllTasks(tasksList);
 		saveAllSubTasks(subTasksList);
 	}
 
-	public void modifySubTaskWorkingHours(SubTask subTask) throws SQLException {
+	public void modifySubTaskWorkingHours(SubTask subTask, int actualWorkingDays) throws SQLException {
 		List<Task> tasksList = getAllTasks();
 		List<SubTask> subTasksList = getAllSubTasks();
-		updateDataBaseOnSubTask(tasksList, subTasksList, subTask);
+		updateDataBaseOnSubTask(tasksList, subTasksList, subTask, actualWorkingDays);
 		saveAllTasks(tasksList);
 		saveAllSubTasks(subTasksList);
 	}
 	
-	private void updateDataBaseOnTask(List<Task> tasksList, List<SubTask> subTasksList, Task task) { //Mina.
+	private void updateDataBaseOnTask(List<Task> tasksList, List<SubTask> subTasksList, Task task, int actualWorkingDays) { //Mina.
 		// TODO Auto-generated method stub
 		
 	}
 	
-	private void updateDataBaseOnSubTask(List<Task> tasksList, List<SubTask> subTasksList, SubTask subTask) { //Fares.
+	private void updateDataBaseOnSubTask(List<Task> tasksList, List<SubTask> subTasksList, SubTask subTask, int actualWorkingDays) { //Fares.
 		// TODO Auto-generated method stub
 		
 	}
