@@ -319,11 +319,11 @@ public class DatabaseHandeller {
 		return subtasks;
 	}
 
-	public List<MileStone> getAllMileStones() throws SQLException, ClassNotFoundException { // Badr
+	public List<MileStone> getAllMileStones() throws SQLException, ClassNotFoundException { //test done Badr
 		// TODO Auto-generated method stub
 
 		List<MileStone> mile = new ArrayList<MileStone>();
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
 			String SQL = "select * from mileStone";
@@ -343,29 +343,33 @@ public class DatabaseHandeller {
 			return null;
 		}
 		// System.out.println("Done");
-
+		for (int i = 0; i <mile.size(); i++)
+		{
+			System.out.println(mile.get(i).toString());
+		}
 		return mile;
 	}
 
-	public MileStone getMileStoneByID(int mileStoneID) { // Badr
+	public MileStone getMileStoneByID(int mileStoneID) { // test done Badr
 		// TODO Auto-generated method stub
 		MileStone mile = new MileStone();
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
-			String SQL = "select * from mileStone where mileStoneId = " + mileStoneID + ";";
+			String SQL = "select * from mileStone where mileStoneId =" + mileStoneID;
+			java.util.Date date1 = null;
 			ResultSet rs = stmt.executeQuery(SQL);
 			rs.next();
-			java.util.Date date1 = null;
 			Date d = new Date();
 			mile.setID(rs.getInt("mileStoneId"));
 			mile.setName(rs.getString("name"));
 			date1 = rs.getDate("date");
 			d.setDay(date1.getDay());
-			// d.setHours(date1.getHours());
+			//d.setHours(date1.getHours());
 			d.setMonth(date1.getMonth());
 			d.setYear(date1.getYear());
 			mile.setDate(d);
+			System.out.println(mile.toString());
 			return mile;
 
 		} catch (Exception e) {
@@ -374,13 +378,13 @@ public class DatabaseHandeller {
 		}
 	}
 
-	public List<TeamMember> getAllTeamMembers() {// Badr
+	public List<TeamMember> getAllTeamMembers() {// test done Badr
 		List<TeamMember> teammember = new ArrayList<TeamMember>();
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
-			String SQL = "select * from teamMember";
+			String SQL = "select*from teamMember";
 			ResultSet res = stmt.executeQuery(SQL);
 			while (res.next()) {
 				TeamMember t = new TeamMember();
@@ -394,46 +398,51 @@ public class DatabaseHandeller {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		for (int i = 0; i <teammember.size(); i++)
+		{
+			System.out.println(teammember.get(i).toString());
+		}
 		return teammember;
 	}
 
-	public MileStone addNewMileStone(MileStone mileStone) { // Badr
+	public MileStone addNewMileStone(MileStone mileStone) {// test done //Badr
 		// TODO Auto-generated method stub
 		MileStone mile = new MileStone();
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
-		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-				Statement stmt = con.createStatement();) {
-			String SQL = "insert into mileStone (name,date) values ( " + "'" + mileStone.getName() + "'" + "," + "'"
-					+ mileStone.getDate().getYear() + "-" + mileStone.getDate().getMonth() + '-'
-					+ mileStone.getDate().getDay() + " " + mileStone.getDate().getHours() + ":00:00" + "'" + ");";
-			stmt.executeUpdate(SQL);
-			// System.out.println(SQL);
-		} catch (Exception e) {
+    	try (Connection con = DriverManager.getConnection(connectionUrl,"root","root"); 
+        		Statement stmt = con.createStatement();) 
+    	{
+    		String SQL = "insert into mileStone (name,date) values ( " +"'"+ mileStone.getName() + "'" + "," + "'"+ mileStone.getDate().getYear() + "-" + 
+    	    mileStone.getDate().getMonth() + '-' +  mileStone.getDate().getDay() + " " + mileStone.getDate().getHours()+ ":00:00" + "'"  + ");"; 
+    		stmt.executeUpdate(SQL);
+    		//System.out.println(SQL);
+    	}catch (Exception e) {
 			System.out.println(e);
-
+			
 		}
 
 		try (Connection s = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = s.createStatement();) {
-
-			String SQL = "select * from mileStone where name='" + mileStone.getName() + "';";
-			// System.out.println(SQL);
-			ResultSet rs = stmt.executeQuery(SQL);
-			rs.next();
-			mile.setID(rs.getInt("mileStoneId"));
-			mile.setDate(mileStone.getDate());
-			mile.setName(mileStone.getName());
-			return mile;
-		} catch (Exception e) {
-			System.out.println(e);
+			
+            String SQL="select * from mileStone where name='"+mileStone.getName()+"';";
+            //System.out.println(SQL);
+            ResultSet rs= stmt.executeQuery(SQL);
+            rs.next();
+            mile.setID(rs.getInt("mileStoneId"));
+            mile.setDate(mileStone.getDate());
+            mile.setName(mileStone.getName());  
+            return mile;
+    	}
+    	catch (Exception e) {
+    		System.out.println(e);
 			return null;
 		}
-
+		
 	}
-
-	public TeamMember getTeamMemberByID(int teamMemberID) {// Badr
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+	
+	public TeamMember getTeamMemberByID(int teamMemberID) {//test done Badr
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
@@ -445,6 +454,7 @@ public class DatabaseHandeller {
 			t.setName(res.getString("name"));
 			t.setTitle(res.getString("title"));
 			t.setWorkingHours(res.getInt("workingHours"));
+			System.out.println(t.toString());
 			return t;
 		} catch (Exception e) {
 			System.out.println(e);
@@ -453,17 +463,16 @@ public class DatabaseHandeller {
 
 	}
 
-	public List<TeamMember> getTeamMembersOnTask(Task task) {// Badr
+	public List<TeamMember> getTeamMembersOnTask(Task task) {//test done // Badr
 		// TODO Auto-generated method stub
-		List<TeamMember> tm = new ArrayList<TeamMember>();
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		List <TeamMember> tm = new ArrayList<TeamMember>(); 
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
-			String SQL = "select * from teamMember where teamMemberId  in ( select WORKS_ON.teamMemberId from WORKS_ON where  WORKS_ON.taskId = "
-					+ task + ")";
+			String SQL = "select * from teamMember where teamMemberId  in ( select WORKS_ON.teamMemberId from WORKS_ON where  WORKS_ON.taskId = " + task.getID() +")"; 
 			ResultSet rs = stmt.executeQuery(SQL);
-			while (rs.next()) {
+			while(rs.next()){
 				TeamMember t = new TeamMember();
 				t.setID(rs.getInt("teamMemberId"));
 				t.setName(rs.getString("name"));
@@ -474,22 +483,25 @@ public class DatabaseHandeller {
 		} catch (Exception e) {
 			System.out.println(e);
 			return null;
+		}
+		for (int i = 0; i <tm.size(); i++)
+		{
+			System.out.println(tm.get(i).toString());
 		}
 
 		return tm;
 	}
 
-	public List<TeamMember> getTeamMembersOnSubTask(SubTask subTask) {// Badr
+	public List<TeamMember> getTeamMembersOnSubTask(SubTask subTask) {//test done // Badr 
 		// TODO Auto-generated method stub
-		List<TeamMember> tm = new ArrayList<TeamMember>();
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		List <TeamMember> tm = new ArrayList<TeamMember>(); 
+		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
-			String SQL = "select * from teamMember where teamMemberId  in ( select WORKS_ON.teamMemberId from WORKS_ON where  WORKS_ON.taskId = "
-					+ subTask + ")";
+			String SQL = "select * from teamMember where teamMemberId  in ( select WORKS_ON.teamMemberId from WORKS_ON where  WORKS_ON.taskId = " + subTask.getID() +")"; 
 			ResultSet rs = stmt.executeQuery(SQL);
-			while (rs.next()) {
+			while(rs.next()){
 				TeamMember t = new TeamMember();
 				t.setID(rs.getInt("teamMemberId"));
 				t.setName(rs.getString("name"));
@@ -501,7 +513,10 @@ public class DatabaseHandeller {
 			System.out.println(e);
 			return null;
 		}
-
+		for (int i = 0; i <tm.size(); i++)
+		{
+			System.out.println(tm.get(i).toString());
+		}
 		return tm;
 	}
 
