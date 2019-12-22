@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Deliverable {
+public class Deliverable implements Serializable {
 	private int ID;
 	private String description;
 	

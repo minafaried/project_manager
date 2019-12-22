@@ -11,7 +11,7 @@ public class MileStone {
 	}
 	
 	public MileStone() {
-		this(0, "", null);
+		this(0, "", new Date());
 	}
 	
 	public void setID(int ID) {

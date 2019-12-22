@@ -39,6 +39,7 @@ public class Interface {
 		ioHandeller.displayMainMenu();
 
 		loop: while (true) {
+			System.out.print("Your choice :");
 			inputChoice = ioHandeller.mainMenuInput();
 			
 			switch (inputChoice) {
@@ -101,6 +102,7 @@ public class Interface {
 				int teamMemberID = ioHandeller.teamMemberIDInput();
 				TeamMember teamMember = controlUnit.loadTeamMember(teamMemberID);
 				ioHandeller.displayTeamMember(teamMember);
+				break;
 			}
 
 			case "Display Team Members On Task By TaskID": {
@@ -247,8 +249,13 @@ public class Interface {
 
 			case "Update Expected Deliverable By ID": {
 				int expectedID = ioHandeller.expectedDeliverableIDInput();
-				Deliverable wantedDeliverable = getDeliverableByID(currentProject, expectedID);
-				wantedDeliverable = forms.updateExpectedDeliverableForm(wantedDeliverable);
+				int deliverableIndex = getDeliverableIndexByID(currentProject, expectedID);
+				if(deliverableIndex != -1) {
+					Deliverable updatedDeliverable = forms.updateExpectedDeliverableForm();
+					currentProject.getExpectedDeliverables().set(deliverableIndex, updatedDeliverable);
+				} else {
+					ioHandeller.displayDeliverableNotFoundError();
+				}
 				break;
 			}
 
@@ -285,9 +292,14 @@ public class Interface {
 				break;
 			}
 			
-			case "Mark Task As A Dependent For Another Task": { //Big Problem.
+			case "Mark Task As A Dependent For Another Task": {
 				int taskID = ioHandeller.taskIDInput();
 				int dependentTaskID = ioHandeller.dependentTaskIDInput();
+				
+				Task task = controlUnit.loadTask(taskID);
+				Task dependentTask = controlUnit.loadTask(dependentTaskID);
+				
+				controlUnit.addDependentTask(task, dependentTask);
 				break;
 			}
 			
@@ -298,8 +310,7 @@ public class Interface {
 				TeamMember teamMember = controlUnit.loadTeamMember(teamMemberID);
 				Task task = controlUnit.loadTask(taskID);
 				
-				int wd=4;
-				controlUnit.addTeamMemberToTask(teamMember, task,wd);
+				controlUnit.addTeamMemberToTask(teamMember, task);
 				break;
 			}
 			
@@ -309,8 +320,8 @@ public class Interface {
 				
 				TeamMember teamMember = controlUnit.loadTeamMember(teamMemberID);
 				SubTask subTask = controlUnit.loadSubTask(taskID);
-				int wd=4;
-				controlUnit.addTeamMemberToSubTask(teamMember, subTask,wd);
+		
+				controlUnit.addTeamMemberToSubTask(teamMember, subTask);
 				break;
 			}
 			
@@ -318,8 +329,9 @@ public class Interface {
 				int taskID = ioHandeller.taskIDInput();
 				int acutalWorkingHours = ioHandeller.actualWorkingHoursInput();
 				
+				
 				Task task = controlUnit.loadTask(taskID);
-				calculateDateBasedOnWorkingHours(task, acutalWorkingHours);
+				task.setWorkingHours(acutalWorkingHours);
 				controlUnit.saveTask(task);
 			}
 			
@@ -328,7 +340,7 @@ public class Interface {
 				int acutalWorkingHours = ioHandeller.actualWorkingHoursInput();
 				
 				SubTask subTask = controlUnit.loadSubTask(taskID);
-				calculateDateBasedOnWorkingHours(subTask, acutalWorkingHours);
+				subTask.setWorkingHours(acutalWorkingHours);
 				controlUnit.saveSubTask(subTask);
 			}
 			
@@ -340,29 +352,24 @@ public class Interface {
 		}
 	}
 	
-	private Deliverable getDeliverableByID(Project project, int ID) {
-		Deliverable wantedDeliverable = null;
-		
-		for(Deliverable deliverableObject : project.getExpectedDeliverables()) {
-			if(deliverableObject.getID() == ID) { 
-				wantedDeliverable = deliverableObject;
+	private int getDeliverableIndexByID(Project project, int ID) {
+		int deliverableIndex = -1;
+		List<Deliverable> expectedList = project.getExpectedDeliverables();
+		for(int i = 0; i < expectedList.size(); i++) {
+			if(expectedList.get(i).getID() == ID) {
+				deliverableIndex = i;
 				break;
 			}
 		}
-				
-		return wantedDeliverable;
+		return deliverableIndex;
 	}
 	
 	private void deleteDeliverableByID(Project project, int ID) {
-		for(int i = 0; i < project.getExpectedDeliverables().size(); i++) {
+		int listLength = project.getExpectedDeliverables().size();
+		for(int i = listLength - 1; i >= 0; i--) {
 			if(project.getExpectedDeliverables().get(i).getID() == ID) {
 				project.getExpectedDeliverables().remove(i);
-				break;
 			}
 		}
-	}
-	
-	private void calculateDateBasedOnWorkingHours(Task task, int actualWorkingHours) { // Fares
-		//Modify the acutalStartDate and the actualDueDate of the input task based on the input working hours.
 	}
 }

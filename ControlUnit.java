@@ -12,10 +12,11 @@ public class ControlUnit {
 		dataBaseHandeller = new DatabaseHandeller();
 		fileHandeller = new FileHandeller();
 	}
-	
+
 	public void createProject(Project currentProject) {
 		try {
 			fileHandeller.saveProject(currentProject);
+			//dataBaseHandeller.resetDataBase();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,7 +88,7 @@ public class ControlUnit {
 
 	public List<TeamMember> loadTeamMembers(Task task) {
 		List<TeamMember> taskTeamMembersList = null;
-		if(task instanceof SubTask) {
+		if (task instanceof SubTask) {
 			taskTeamMembersList = dataBaseHandeller.getTeamMembersOnSubTask((SubTask) task);
 		} else {
 			taskTeamMembersList = dataBaseHandeller.getTeamMembersOnTask(task);
@@ -100,14 +101,15 @@ public class ControlUnit {
 		return subTasksList;
 	}
 
-	public void constructProjectPlanBeforeStart(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished) throws FileNotFoundException {
-		fileHandeller.constructProjectPlanBeforeStart(x_axis,y_axis_start,y_axis_finished);
+	public void constructProjectPlanBeforeStart(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished)
+			throws FileNotFoundException {
+		fileHandeller.constructProjectPlanBeforeStart(x_axis, y_axis_start, y_axis_finished);
 	}
 
-	public void constructProjectPlanAfterFinish(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished) throws FileNotFoundException {
-		fileHandeller.constructProjectPlanAfterFinish(x_axis,y_axis_start,y_axis_finished);
+	public void constructProjectPlanAfterFinish(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished)
+			throws FileNotFoundException {
+		fileHandeller.constructProjectPlanAfterFinish(x_axis, y_axis_start, y_axis_finished);
 	}
-
 
 	public void destoryProjectPlan() throws FileNotFoundException, ClassNotFoundException, SQLException {
 		fileHandeller.clearProjectData();
@@ -134,20 +136,20 @@ public class ControlUnit {
 		return teamMember;
 	}
 
-	public void addTeamMemberToTask(TeamMember teamMember, Task task,int wd) throws SQLException {
-		dataBaseHandeller.assignTeamMemberToTask(teamMember, task, wd);
+	public void addTeamMemberToTask(TeamMember teamMember, Task task) throws SQLException {
+		dataBaseHandeller.assignTeamMemberToTask(teamMember, task);
 	}
 
-	public void addTeamMemberToSubTask(TeamMember teamMember, SubTask subTask,int wd) throws SQLException {
-		dataBaseHandeller.assignTeamMemberToSubTask(teamMember, subTask ,wd);
+	public void addTeamMemberToSubTask(TeamMember teamMember, SubTask subTask) throws SQLException {
+		dataBaseHandeller.assignTeamMemberToSubTask(teamMember, subTask);
 	}
 
 	public void saveTask(Task task) throws SQLException {
-		dataBaseHandeller.saveTask(task);
+		dataBaseHandeller.modifyTaskWorkingHours(task);
 	}
-	
+
 	public void saveSubTask(SubTask subTask) throws SQLException {
-		dataBaseHandeller.saveSubTask(subTask);
+		dataBaseHandeller.modifySubTaskWorkingHours(subTask);
 	}
 
 	public void saveProject(Project currentProject) throws IOException {
@@ -157,5 +159,10 @@ public class ControlUnit {
 	public List<Task> loadDependentTasks(Task task) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void addDependentTask(Task task, Task dependentTask) {
+		dataBaseHandeller.assignTaskToDependentTask(task, dependentTask);
+
 	}
 }

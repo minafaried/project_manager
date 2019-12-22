@@ -18,7 +18,7 @@ public class Task {
 	}
 
 	public Task() {
-		this(0, 0, null, null, null, null);
+		this(0, 0, new Date(), new Date(), new Date(), new Date());
 	}
 
 	public void setID(int ID) {

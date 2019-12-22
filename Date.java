@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.Scanner;
 
 // comparsion functions.   //Mina
-public class Date { // The date is in format (dd/mm/yyyy:hh).
+public class Date implements Serializable { // The date is in format (dd/mm/yyyy:hh).
 	private int day;
 	private int month;
 	private int year;
@@ -53,16 +54,16 @@ public class Date { // The date is in format (dd/mm/yyyy:hh).
 	public void input() {
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.print("Enter the day");
+		System.out.print("Enter the day :");
 		day = scanner.nextInt();
 
-		System.out.print("Enter the month");
+		System.out.print("Enter the month :");
 		month = scanner.nextInt();
 
-		System.out.print("Enter the year");
+		System.out.print("Enter the year :");
 		year = scanner.nextInt();
 
-		System.out.print("Enter the hours");
+		System.out.print("Enter the hours :");
 		hours = scanner.nextInt();
 		scanner.nextLine();
 	}

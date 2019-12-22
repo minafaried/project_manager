@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Project implements Serializable {
 	private String name;
@@ -22,7 +23,7 @@ public class Project implements Serializable {
 	}
 	
 	public Project() {
-		this("", 0, null, null, null, 0, Project.sunDay()); //By default the start of the week is Sunday.
+		this("", 0.0, new Date(), new Date(), new ArrayList<Deliverable>(), 0, Project.sunDay()); //By default the start of the week is Sunday.
 	}
 
 	public static String sunDay() {
@@ -90,7 +91,7 @@ public class Project implements Serializable {
 	}
 	
 	public void Display() {
-		System.out.println("Project Name :");
+		System.out.println("Project Name :" + name);
 		System.out.println("Project Cost :" + cost);
 		System.out.println("Project Start Date :" + startDate);
 		System.out.println("Project Due Date :" + dueDate);
