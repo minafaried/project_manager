@@ -1,4 +1,9 @@
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Scanner;
 
 // comparsion functions.   //Mina
@@ -68,28 +73,64 @@ public class Date implements Serializable { // The date is in format (dd/mm/yyyy
 		scanner.nextLine();
 	}
 	
-	public Date increment(Date date, int days) { //Doesn't use or modify any data of the calling object.
-		Date newDate = new Date();
-		
-		return newDate;
+
+	public String convarte_to_date_formate(Date d)//yyyy-mm-dd
+	{
+		return d.getYear()+"-"+int_to_String(d.getMonth())+"-"+int_to_String(d.getDay());
 	}
 	
-	public Date decrement(Date date, int days) { //Doesn't use or modify any data of the calling object.
-		Date newDate = new Date();
-		
-		return newDate;
+	public Date convarte_from_date_formate(String d)
+	{
+	
+		String year=""+d.charAt(0)+d.charAt(1)+d.charAt(2)+d.charAt(3);
+		String month=""+d.charAt(5)+d.charAt(6);
+		String day=""+d.charAt(8)+d.charAt(9);
+		Date date=new Date(Integer.parseInt(day),Integer.parseInt(month),Integer.parseInt(year),0);
+		return date;
 	}
-
+	
+	public String int_to_String(int value)//convert int day and month to string
+	{
+		if((""+value).length()<2)
+		{
+			return "0"+value;
+		}
+		else
+			return ""+value;
+	}
+	
 	public int difference(Date Date1, Date Date2) { //Doesn't use or modify any data of the calling object.
 		int daysDifference = 0;
+		
+		String date1=Date1.getYear()+"-"+int_to_String(Date1.getMonth())+"-"+int_to_String(Date1.getDay());
+		String date2=Date2.getYear()+"-"+int_to_String(Date2.getMonth())+"-"+int_to_String(Date2.getDay());
+		LocalDate d1 = LocalDate.parse(date1, DateTimeFormatter.ISO_LOCAL_DATE);
+		LocalDate d2 = LocalDate.parse(date2, DateTimeFormatter.ISO_LOCAL_DATE);
+		Duration diff = Duration.between(d1.atStartOfDay(), d2.atStartOfDay());
+		daysDifference = (int) diff.toDays();
 		
 		return daysDifference;	
 	}
 	
-	public String toString() {
-		return day + "/" + month + "/" + year + ":" + hours;
+	public Date updatedate(Date date, int days) { //+days Means increment the date by dates -date Means decrement the date by dates 
+		Date newDate = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		try{
+		   //Setting the date to the given date
+		   c.setTime(sdf.parse(convarte_to_date_formate(date)));
+		}catch(Exception e){
+			System.err.println(e);
+		 }
+		   
+		//Number of Days to add
+		c.add(Calendar.DAY_OF_MONTH, days);  
+		//Date after adding the days to the given date
+		String dateformate = sdf.format(c.getTime());
+		newDate=convarte_from_date_formate(dateformate);
+		return newDate;
 	}
-
+	
 	// date.compare(d) 
 	//return 1 if date>d
 	//return 0 if date==d
@@ -121,4 +162,10 @@ public class Date implements Serializable { // The date is in format (dd/mm/yyyy
 			return -1;
 		}
 	}
+	
+	public String toString() {
+		return day + "/" + month + "/" + year + ":" + hours;
+	}
+
+
 }
