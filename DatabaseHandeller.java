@@ -521,10 +521,14 @@ public class DatabaseHandeller {
 		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 		Statement stmt = con.createStatement();
-		String SQL = "INSERT INTO Task " + " VALUES ( , task.getWorkingHours() , task.getPlannedStartDate() , task.getPlannedDueDate() , task.getActualStartDate() , task.getActualDueDate() , -1);";
+		String SQL = "INSERT INTO Task (workingHours , plannedStartDate , plannedDueDate , actualStartDate , actualDueDate , parentTaskId) " + " VALUES (task.getWorkingHours() , task.getPlannedStartDate() , task.getPlannedDueDate() , task.getActualStartDate() , task.getActualDueDate() , -1);";
 		ResultSet res = stmt.executeQuery(SQL);
 		Task t= new Task();
 		Date date= new Date();
+	    con = DriverManager.getConnection(connectionUrl, "root", "root");
+	    stmt = con.createStatement();
+		SQL="select * from Task where taskid= LAST_VALUE(taskid) ;";
+		res = stmt.executeQuery(SQL);
 		res.next();
 		t.setID(res.getInt("taskid"));
 		t.setWorkingHours(res.getInt("workingHours"));
@@ -558,10 +562,14 @@ public class DatabaseHandeller {
 		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 		Statement stmt = con.createStatement();
-		String SQL = "INSERT INTO Task " + " VALUES ( , subTask.getWorkingHours() , subTask.getPlannedStartDate() , subTask.getPlannedDueDate() , subTask.getActualStartDate() , subTask.getActualDueDate() , task.getID());";
+		String SQL = "INSERT INTO Task (workingHours , plannedStartDate , plannedDueDate , actualStartDate , actualDueDate , parentTaskId) " + " VALUES (subTask.getWorkingHours() , subTask.getPlannedStartDate() , subTask.getPlannedDueDate() , subTask.getActualStartDate() , subTask.getActualDueDate() , task.getID());";
 		ResultSet res = stmt.executeQuery(SQL);
 		SubTask s= new SubTask();
 		Date date= new Date();
+		con = DriverManager.getConnection(connectionUrl, "root", "root");
+		stmt = con.createStatement();
+	    SQL="select * from Task where taskid= LAST_VALUE(taskid) ;";
+	    res = stmt.executeQuery(SQL);
 		res.next();
 		s.setID(res.getInt("taskid"));
 		s.setWorkingHours(res.getInt("workingHours"));
@@ -595,8 +603,12 @@ public class DatabaseHandeller {
 		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 		Statement stmt = con.createStatement();
-		String SQL = "INSERT INTO teamMember " + " VALUES (teamMember.getID() , teamMember.getName() , teamMember.getTitle() , teamMember.getWorkingHours());";
+		String SQL = "INSERT INTO teamMember (name , title , workingHours) " + " VALUES (teamMember.getName() , teamMember.getTitle() , teamMember.getWorkingHours());";
 		ResultSet res = stmt.executeQuery(SQL);
+	    con = DriverManager.getConnection(connectionUrl, "root", "root");
+		stmt = con.createStatement();
+	    SQL="select * from teamMember where teamMemberid= LAST_VALUE(teamMemberid) ;";
+		res = stmt.executeQuery(SQL);
 		res.next();
 		TeamMember tm= new TeamMember();
 		tm.setID(res.getInt("teamMemberid"));
@@ -606,21 +618,21 @@ public class DatabaseHandeller {
 		return tm;
 	}
 //---------------------------------------------------------------------
-	public void assignTeamMemberToTask(TeamMember teamMember, Task task , int workingDays) throws SQLException {// omar
+	public void assignTeamMemberToTask(TeamMember teamMember, Task task , int wD) throws SQLException {// omar
 		
 		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 		Statement stmt = con.createStatement();
-		String SQL = "INSERT INTO WORKS_ON "+ " VALUES (task.getID() , teamMember.getID() , workingDays);";
+		String SQL = "INSERT INTO WORKS_ON (taskid , teamMemberid , workingDays) "+ " VALUES (task.getID() , teamMember.getID() , wD);";
 		ResultSet res = stmt.executeQuery(SQL);
 	}
 //---------------------------------------------------------------------
-	public void assignTeamMemberToSubTask(TeamMember teamMember, SubTask subTask, int workingDays) throws SQLException {// omar
+	public void assignTeamMemberToSubTask(TeamMember teamMember, SubTask subTask, int wD) throws SQLException {// omar
 		
 		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 		Statement stmt = con.createStatement();
-		String SQL = "INSERT INTO WORKS_ON "+ " VALUES (subTask.getID() , teamMember.getID() , workingDays);";
+		String SQL = "INSERT INTO WORKS_ON (taskid , teamMemberid , workingDays) "+ " VALUES (subTask.getID() , teamMember.getID() , wD);";
 		ResultSet res = stmt.executeQuery(SQL);
 	}
 //---------------------------------------------------------------------
@@ -629,7 +641,7 @@ public class DatabaseHandeller {
 		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 		Statement stmt = con.createStatement();
-		String SQL = "UPDATE Task set workingHours="+task.getWorkingHours()+", plannedStartDate="+task.getPlannedStartDate()+", plannedDueDate="+task.getPlannedDueDate()+", actualStartDate="+task.getActualStartDate()+", actualDueDate="+task.getActualDueDate()+", parentTaskId="+-1+"WHERE taskid="+task.getID()+";";
+		String SQL = "UPDATE Task set workingHours="+task.getWorkingHours()+", plannedStartDate="+task.getPlannedStartDate()+", plannedDueDate="+task.getPlannedDueDate()+", actualStartDate="+task.getActualStartDate()+", actualDueDate="+task.getActualDueDate()+", parentTaskId="+-1+" WHERE taskid="+task.getID()+";";
 		ResultSet res = stmt.executeQuery(SQL);
 	}
 //---------------------------------------------------------------------
@@ -638,7 +650,7 @@ public class DatabaseHandeller {
 		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 		Statement stmt = con.createStatement();
-		String SQL = "UPDATE Task set workingHours="+subTask.getWorkingHours()+", plannedStartDate="+subTask.getPlannedStartDate()+", plannedDueDate="+subTask.getPlannedDueDate()+", actualStartDate="+subTask.getActualStartDate()+", actualDueDate="+subTask.getActualDueDate()+", parentTaskId="+-1+" , parentTaskId=+"+subTask.getParentID()+"WHERE taskid="+subTask.getID()+";";
+		String SQL = "UPDATE Task set workingHours="+subTask.getWorkingHours()+", plannedStartDate="+subTask.getPlannedStartDate()+", plannedDueDate="+subTask.getPlannedDueDate()+", actualStartDate="+subTask.getActualStartDate()+", actualDueDate="+subTask.getActualDueDate()+", parentTaskId="+subTask.getParentID()+" WHERE taskid="+subTask.getID()+";";
 		ResultSet res = stmt.executeQuery(SQL);
 	}
 }
