@@ -16,7 +16,7 @@ public class DatabaseHandeller {
 	public List<Task> getAllTasks() { // mina
 		List<Task> tasks = new ArrayList<Task>();
 
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
@@ -76,7 +76,7 @@ public class DatabaseHandeller {
 	}
 	@SuppressWarnings("deprecation")
 	public Task getTaskByID(int taskID) {// mina
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
@@ -133,7 +133,7 @@ public class DatabaseHandeller {
 	@SuppressWarnings("deprecation")
 	public List<SubTask> getAllSubTasks() {// mina
 		List<SubTask> subtasks = new ArrayList<SubTask>();
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
@@ -196,7 +196,7 @@ public class DatabaseHandeller {
 	}
 	@SuppressWarnings("deprecation")
 	public SubTask getSubTaskByID(int taskID) {// mina
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
@@ -253,7 +253,7 @@ public class DatabaseHandeller {
 	@SuppressWarnings("deprecation")
 	public List<SubTask> getSubTasksOfTask(Task task) { // mina
 		List<SubTask> subtasks = new ArrayList<SubTask>();
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
@@ -318,7 +318,7 @@ public class DatabaseHandeller {
 		// TODO Auto-generated method stub
 
 		List<MileStone> mile = new ArrayList<MileStone>();
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
 			String SQL = "select * from mileStone";
@@ -345,7 +345,7 @@ public class DatabaseHandeller {
 	public MileStone getMileStoneByID(int mileStoneID) { // Badr
 		// TODO Auto-generated method stub
 		MileStone mile = new MileStone();
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
 			String SQL = "select * from mileStone where mileStone = " + mileStoneID + ";";
@@ -369,7 +369,7 @@ public class DatabaseHandeller {
 
 	public List<TeamMember> getAllTeamMembers() {// Badr
 		List<TeamMember> teammember = new ArrayList<TeamMember>();
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
@@ -393,7 +393,7 @@ public class DatabaseHandeller {
 	public MileStone addNewMileStone(MileStone mileStone) { //Badr
 		// TODO Auto-generated method stub
 		MileStone mile = new MileStone();
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
     	try (Connection con = DriverManager.getConnection(connectionUrl,"root","root"); 
         		Statement stmt = con.createStatement();) 
@@ -427,7 +427,7 @@ public class DatabaseHandeller {
 	}
 
 	public TeamMember getTeamMemberByID(int teamMemberID) {// Badr
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-R87PDJN;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
@@ -451,7 +451,7 @@ public class DatabaseHandeller {
 	public List<TeamMember> getTeamMembersOnTask(Task task) {// Badr
 		// TODO Auto-generated method stub
 		List <TeamMember> tm = new ArrayList<TeamMember>(); 
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
@@ -476,7 +476,7 @@ public class DatabaseHandeller {
 	public List<TeamMember> getTeamMembersOnSubTask(SubTask subTask) {// Badr
 		// TODO Auto-generated method stub
 		List <TeamMember> tm = new ArrayList<TeamMember>(); 
-		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {

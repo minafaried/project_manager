@@ -1,4 +1,7 @@
 import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ControlUnit {
@@ -11,11 +14,25 @@ public class ControlUnit {
 	}
 	
 	public void createProject(Project currentProject) {
-		fileHandeller.saveProject(currentProject);
+		try {
+			fileHandeller.saveProject(currentProject);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public Project loadProject() {
-		Project project = fileHandeller.loadProject();
+		Project project = null;
+		try {
+			project = fileHandeller.loadProject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return project;
 	}
 
@@ -40,7 +57,16 @@ public class ControlUnit {
 	}
 
 	public List<MileStone> loadMileStones() {
-		List<MileStone> mileStonesList = dataBaseHandeller.getAllMileStones();
+		List<MileStone> mileStonesList = null;
+		try {
+			mileStonesList = dataBaseHandeller.getAllMileStones();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return mileStonesList;
 	}
 
@@ -74,26 +100,26 @@ public class ControlUnit {
 		return subTasksList;
 	}
 
-	public void constructProjectPlanBeforeStart(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished) {
+	public void constructProjectPlanBeforeStart(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished) throws FileNotFoundException {
 		fileHandeller.constructProjectPlanBeforeStart(x_axis,y_axis_start,y_axis_finished);
 	}
 
-	public void constructProjectPlanAfterFinish(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished) {
+	public void constructProjectPlanAfterFinish(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished) throws FileNotFoundException {
 		fileHandeller.constructProjectPlanAfterFinish(x_axis,y_axis_start,y_axis_finished);
 	}
 
 
-	public void destoryProjectPlan() {
+	public void destoryProjectPlan() throws FileNotFoundException, ClassNotFoundException, SQLException {
 		fileHandeller.clearProjectData();
 		dataBaseHandeller.resetDataBase();
 	}
 
-	public Task addNewTask(Task task) {
+	public Task addNewTask(Task task) throws SQLException {
 		task = dataBaseHandeller.addNewTask(task);
 		return task;
 	}
 
-	public SubTask addNewSubTask(Task task, SubTask subTask) {
+	public SubTask addNewSubTask(Task task, SubTask subTask) throws SQLException {
 		subTask = dataBaseHandeller.addNewSubTask(task, subTask);
 		return subTask;
 	}
@@ -103,28 +129,28 @@ public class ControlUnit {
 		return mileStone;
 	}
 
-	public TeamMember addTeamMember(TeamMember teamMember) {
+	public TeamMember addTeamMember(TeamMember teamMember) throws SQLException {
 		teamMember = dataBaseHandeller.addNewTeamMember(teamMember);
 		return teamMember;
 	}
 
-	public void addTeamMemberToTask(TeamMember teamMember, Task task) {
-		dataBaseHandeller.assignTeamMemberToTask(teamMember, task);
+	public void addTeamMemberToTask(TeamMember teamMember, Task task,int wd) throws SQLException {
+		dataBaseHandeller.assignTeamMemberToTask(teamMember, task, wd);
 	}
 
-	public void addTeamMemberToSubTask(TeamMember teamMember, SubTask subTask) {
-		dataBaseHandeller.assignTeamMemberToSubTask(teamMember, subTask);
+	public void addTeamMemberToSubTask(TeamMember teamMember, SubTask subTask,int wd) throws SQLException {
+		dataBaseHandeller.assignTeamMemberToSubTask(teamMember, subTask ,wd);
 	}
 
-	public void saveTask(Task task) {
+	public void saveTask(Task task) throws SQLException {
 		dataBaseHandeller.saveTask(task);
 	}
 	
-	public void saveSubTask(SubTask subTask) {
+	public void saveSubTask(SubTask subTask) throws SQLException {
 		dataBaseHandeller.saveSubTask(subTask);
 	}
 
-	public void saveProject(Project currentProject) {
+	public void saveProject(Project currentProject) throws IOException {
 		fileHandeller.saveProject(currentProject);
 	}
 

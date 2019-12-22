@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 //All the input an output operations on the console are done through IOHandeller Class.
@@ -13,7 +16,7 @@ public class Interface {
 		ioHandeller = new IOHandeller();
 	}
 
-	public void interact() {
+	public void interact() throws SQLException, ClassNotFoundException, IOException {
 		String inputChoice = "";
 		Project currentProject = null;
 
@@ -295,7 +298,8 @@ public class Interface {
 				TeamMember teamMember = controlUnit.loadTeamMember(teamMemberID);
 				Task task = controlUnit.loadTask(taskID);
 				
-				controlUnit.addTeamMemberToTask(teamMember, task);
+				int wd=4;
+				controlUnit.addTeamMemberToTask(teamMember, task,wd);
 				break;
 			}
 			
@@ -305,8 +309,8 @@ public class Interface {
 				
 				TeamMember teamMember = controlUnit.loadTeamMember(teamMemberID);
 				SubTask subTask = controlUnit.loadSubTask(taskID);
-				
-				controlUnit.addTeamMemberToSubTask(teamMember, subTask);
+				int wd=4;
+				controlUnit.addTeamMemberToSubTask(teamMember, subTask,wd);
 				break;
 			}
 			
