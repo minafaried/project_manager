@@ -12,10 +12,10 @@ public class DatabaseHandeller {
 
 	}
 
-	private Date convertSqltoDate(java.sql.Date sqldate)
-	{
+	private Date convertSqltoDate(java.sql.Date sqldate) {
 		return Date.convarte_from_date_format(sqldate.toString());
 	}
+
 	@SuppressWarnings("deprecation")
 	public List<Task> getAllTasks() { // mina
 		List<Task> tasks = new ArrayList<Task>();
@@ -34,15 +34,14 @@ public class DatabaseHandeller {
 					t.setID(res.getInt("taskId"));
 					t.setWorkingHours(res.getInt("workingHours"));
 
-					
 					sqldate = new java.sql.Date(res.getDate("plannedStartDate").getTime());
-					
+
 					t.setPlannedStartDate(convertSqltoDate(sqldate));
 					sqldate = new java.sql.Date(res.getDate("plannedDueDate").getTime());
-					
+
 					t.setPlannedDueDate(convertSqltoDate(sqldate));
 
-					sqldate =new java.sql.Date(res.getDate("actualStartDate").getTime());
+					sqldate = new java.sql.Date(res.getDate("actualStartDate").getTime());
 
 					t.setActualStartDate(convertSqltoDate(sqldate));
 
@@ -70,7 +69,7 @@ public class DatabaseHandeller {
 				Statement stmt = con.createStatement();) {
 			String SQL = "SELECT  * FROM task where taskid=" + taskID + ";";
 			ResultSet res = stmt.executeQuery(SQL);
-			
+
 			java.sql.Date sqldate;
 			// Iterate through the data in the result set and display it.
 			res.next();
@@ -112,7 +111,7 @@ public class DatabaseHandeller {
 				Statement stmt = con.createStatement();) {
 			String SQL = "SELECT  * FROM task;";
 			ResultSet res = stmt.executeQuery(SQL);
-			
+
 			java.sql.Date sqldate;
 			// Iterate through the data in the result set and display it.
 			while (res.next()) {
@@ -133,7 +132,7 @@ public class DatabaseHandeller {
 
 					sqldate = res.getDate("actualStartDate");
 					convertSqltoDate(sqldate);
-					
+
 					t.setActualStartDate(convertSqltoDate(sqldate));
 
 					sqldate = res.getDate("actualDueDate");
@@ -161,7 +160,7 @@ public class DatabaseHandeller {
 				Statement stmt = con.createStatement();) {
 			String SQL = "SELECT  * FROM task where taskid=" + taskID + ";";
 			ResultSet res = stmt.executeQuery(SQL);
-			Date tempdate = new Date();
+
 			java.sql.Date sqldate;
 			// Iterate through the data in the result set and display it.
 			res.next();
@@ -172,35 +171,19 @@ public class DatabaseHandeller {
 
 			sqldate = res.getDate("plannedStartDate");
 
-			tempdate.setYear(sqldate.getYear());
-			tempdate.setMonth(sqldate.getMonth());
-			tempdate.setDay(sqldate.getDay());
-			// tempdate.setHours(sqldate.getHours());
-			t.setPlannedStartDate(tempdate);
+			t.setPlannedStartDate(convertSqltoDate(sqldate));
 
 			sqldate = res.getDate("plannedDueDate");
 
-			tempdate.setYear(sqldate.getYear());
-			tempdate.setMonth(sqldate.getMonth());
-			tempdate.setDay(sqldate.getDay());
-			// tempdate.setHours(sqldate.getHours());
-			t.setPlannedDueDate(tempdate);
+			t.setPlannedDueDate(convertSqltoDate(sqldate));
 
 			sqldate = res.getDate("actualStartDate");
 
-			tempdate.setYear(sqldate.getYear());
-			tempdate.setMonth(sqldate.getMonth());
-			tempdate.setDay(sqldate.getDay());
-			// tempdate.setHours(sqldate.getHours());
-			t.setActualStartDate(tempdate);
+			t.setActualStartDate(convertSqltoDate(sqldate));
 
 			sqldate = res.getDate("actualDueDate");
 
-			tempdate.setYear(sqldate.getYear());
-			tempdate.setMonth(sqldate.getMonth());
-			tempdate.setDay(sqldate.getDay());
-			// tempdate.setHours(sqldate.getHours());
-			t.setActualDueDate(tempdate);
+			t.setActualDueDate(convertSqltoDate(sqldate));
 			// t.display();
 			return t;
 		} catch (Exception e) {
@@ -219,7 +202,7 @@ public class DatabaseHandeller {
 				Statement stmt = con.createStatement();) {
 			String SQL = "SELECT  * FROM task where parentTaskId=" + task.getID() + ";";
 			ResultSet res = stmt.executeQuery(SQL);
-			Date tempdate = new Date();
+
 			java.sql.Date sqldate;
 			// Iterate through the data in the result set and display it.
 			while (res.next()) {
@@ -231,35 +214,19 @@ public class DatabaseHandeller {
 
 				sqldate = res.getDate("plannedStartDate");
 
-				tempdate.setYear(sqldate.getYear());
-				tempdate.setMonth(sqldate.getMonth());
-				tempdate.setDay(sqldate.getDay());
-				// tempdate.setHours(sqldate.getHours());
-				t.setPlannedStartDate(tempdate);
+				t.setPlannedStartDate(convertSqltoDate(sqldate));
 
 				sqldate = res.getDate("plannedDueDate");
 
-				tempdate.setYear(sqldate.getYear());
-				tempdate.setMonth(sqldate.getMonth());
-				tempdate.setDay(sqldate.getDay());
-				// tempdate.setHours(sqldate.getHours());
-				t.setPlannedDueDate(tempdate);
+				t.setPlannedDueDate(convertSqltoDate(sqldate));
 
 				sqldate = res.getDate("actualStartDate");
 
-				tempdate.setYear(sqldate.getYear());
-				tempdate.setMonth(sqldate.getMonth());
-				tempdate.setDay(sqldate.getDay());
-				// tempdate.setHours(sqldate.getHours());
-				t.setActualStartDate(tempdate);
+				t.setActualStartDate(convertSqltoDate(sqldate));
 
 				sqldate = res.getDate("actualDueDate");
 
-				tempdate.setYear(sqldate.getYear());
-				tempdate.setMonth(sqldate.getMonth());
-				tempdate.setDay(sqldate.getDay());
-				// tempdate.setHours(sqldate.getHours());
-				t.setActualDueDate(tempdate);
+				t.setActualDueDate(convertSqltoDate(sqldate));
 
 				// t.display();
 				subtasks.add(t);
@@ -274,7 +241,7 @@ public class DatabaseHandeller {
 		return subtasks;
 	}
 
-	public List<MileStone> getAllMileStones() throws SQLException, ClassNotFoundException { //test done Badr
+	public List<MileStone> getAllMileStones() throws SQLException, ClassNotFoundException { // test done Badr
 		// TODO Auto-generated method stub
 
 		List<MileStone> mile = new ArrayList<MileStone>();
@@ -283,23 +250,18 @@ public class DatabaseHandeller {
 				Statement stmt = con.createStatement();) {
 			String SQL = "select * from mileStone";
 			ResultSet rs = stmt.executeQuery(SQL);
-			java.util.Date date1 = null;
-			Date d = new Date();
+			java.sql.Date date1 = null;
 			while (rs.next()) {
 				date1 = rs.getDate("date");
-				d.setDay(date1.getDay());
-				// d.setHours(date1.getHours());
-				d.setMonth(date1.getMonth());
-				d.setYear(date1.getYear());
-				mile.add(new MileStone(rs.getInt("mileStoneId"), rs.getString("name"), d));
+
+				mile.add(new MileStone(rs.getInt("mileStoneId"), rs.getString("name"), convertSqltoDate(date1)));
 			}
 		} catch (Exception e) {
 			System.out.println(e);
 			return null;
 		}
 		// System.out.println("Done");
-		for (int i = 0; i <mile.size(); i++)
-		{
+		for (int i = 0; i < mile.size(); i++) {
 			System.out.println(mile.get(i).toString());
 		}
 		return mile;
@@ -312,18 +274,15 @@ public class DatabaseHandeller {
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
 			String SQL = "select * from mileStone where mileStoneId =" + mileStoneID;
-			java.util.Date date1 = null;
+			java.sql.Date date1 = null;
 			ResultSet rs = stmt.executeQuery(SQL);
 			rs.next();
-			Date d = new Date();
+
 			mile.setID(rs.getInt("mileStoneId"));
 			mile.setName(rs.getString("name"));
 			date1 = rs.getDate("date");
-			d.setDay(date1.getDay());
-			//d.setHours(date1.getHours());
-			d.setMonth(date1.getMonth());
-			d.setYear(date1.getYear());
-			mile.setDate(d);
+
+			mile.setDate(convertSqltoDate(date1));
 			System.out.println(mile.toString());
 			return mile;
 
@@ -353,8 +312,7 @@ public class DatabaseHandeller {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		for (int i = 0; i <teammember.size(); i++)
-		{
+		for (int i = 0; i < teammember.size(); i++) {
 			System.out.println(teammember.get(i).toString());
 		}
 		return teammember;
@@ -363,40 +321,39 @@ public class DatabaseHandeller {
 	public MileStone addNewMileStone(MileStone mileStone) {// test done //Badr
 		// TODO Auto-generated method stub
 		MileStone mile = new MileStone();
-		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 
-    	try (Connection con = DriverManager.getConnection(connectionUrl,"root","root"); 
-        		Statement stmt = con.createStatement();) 
-    	{
-    		String SQL = "insert into mileStone (name,date) values ( " +"'"+ mileStone.getName() + "'" + "," + "'"+ mileStone.getDate().getYear() + "-" + 
-    	    mileStone.getDate().getMonth() + '-' +  mileStone.getDate().getDay() + " " + mileStone.getDate().getHours()+ ":00:00" + "'"  + ");"; 
-    		stmt.executeUpdate(SQL);
-    		//System.out.println(SQL);
-    	}catch (Exception e) {
+		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+				Statement stmt = con.createStatement();) {
+			String SQL = "insert into mileStone (name,date) values ( " + "'" + mileStone.getName() + "'" + "," + "'"
+					+ mileStone.getDate().getYear() + "-" + mileStone.getDate().getMonth() + '-'
+					+ mileStone.getDate().getDay() + " " + mileStone.getDate().getHours() + ":00:00" + "'" + ");";
+			stmt.executeUpdate(SQL);
+			// System.out.println(SQL);
+		} catch (Exception e) {
 			System.out.println(e);
-			
+
 		}
 
 		try (Connection s = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = s.createStatement();) {
-			
-            String SQL="select * from mileStone where name='"+mileStone.getName()+"';";
-            //System.out.println(SQL);
-            ResultSet rs= stmt.executeQuery(SQL);
-            rs.next();
-            mile.setID(rs.getInt("mileStoneId"));
-            mile.setDate(mileStone.getDate());
-            mile.setName(mileStone.getName());  
-            return mile;
-    	}
-    	catch (Exception e) {
-    		System.out.println(e);
+
+			String SQL = "select * from mileStone where name='" + mileStone.getName() + "';";
+			// System.out.println(SQL);
+			ResultSet rs = stmt.executeQuery(SQL);
+			rs.next();
+			mile.setID(rs.getInt("mileStoneId"));
+			mile.setDate(mileStone.getDate());
+			mile.setName(mileStone.getName());
+			return mile;
+		} catch (Exception e) {
+			System.out.println(e);
 			return null;
 		}
-		
+
 	}
-	
-	public TeamMember getTeamMemberByID(int teamMemberID) {//test done Badr
+
+	public TeamMember getTeamMemberByID(int teamMemberID) {// test done Badr
 		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
@@ -418,16 +375,17 @@ public class DatabaseHandeller {
 
 	}
 
-	public List<TeamMember> getTeamMembersOnTask(Task task) {//test done // Badr
+	public List<TeamMember> getTeamMembersOnTask(Task task) {// test done // Badr
 		// TODO Auto-generated method stub
-		List <TeamMember> tm = new ArrayList<TeamMember>(); 
+		List<TeamMember> tm = new ArrayList<TeamMember>();
 		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
-			String SQL = "select * from teamMember where teamMemberId  in ( select WORKS_ON.teamMemberId from WORKS_ON where  WORKS_ON.taskId = " + task.getID() +")"; 
+			String SQL = "select * from teamMember where teamMemberId  in ( select WORKS_ON.teamMemberId from WORKS_ON where  WORKS_ON.taskId = "
+					+ task.getID() + ")";
 			ResultSet rs = stmt.executeQuery(SQL);
-			while(rs.next()){
+			while (rs.next()) {
 				TeamMember t = new TeamMember();
 				t.setID(rs.getInt("teamMemberId"));
 				t.setName(rs.getString("name"));
@@ -439,24 +397,24 @@ public class DatabaseHandeller {
 			System.out.println(e);
 			return null;
 		}
-		for (int i = 0; i <tm.size(); i++)
-		{
+		for (int i = 0; i < tm.size(); i++) {
 			System.out.println(tm.get(i).toString());
 		}
 
 		return tm;
 	}
 
-	public List<TeamMember> getTeamMembersOnSubTask(SubTask subTask) {//test done // Badr 
+	public List<TeamMember> getTeamMembersOnSubTask(SubTask subTask) {// test done // Badr
 		// TODO Auto-generated method stub
-		List <TeamMember> tm = new ArrayList<TeamMember>(); 
+		List<TeamMember> tm = new ArrayList<TeamMember>();
 		String connectionUrl = "jdbc:sqlserver://DESKTOP-I3MSHN8;databaseName=PM_db;integratedsecurity=true;";
 
 		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 				Statement stmt = con.createStatement();) {
-			String SQL = "select * from teamMember where teamMemberId  in ( select WORKS_ON.teamMemberId from WORKS_ON where  WORKS_ON.taskId = " + subTask.getID() +")"; 
+			String SQL = "select * from teamMember where teamMemberId  in ( select WORKS_ON.teamMemberId from WORKS_ON where  WORKS_ON.taskId = "
+					+ subTask.getID() + ")";
 			ResultSet rs = stmt.executeQuery(SQL);
-			while(rs.next()){
+			while (rs.next()) {
 				TeamMember t = new TeamMember();
 				t.setID(rs.getInt("teamMemberId"));
 				t.setName(rs.getString("name"));
@@ -468,8 +426,7 @@ public class DatabaseHandeller {
 			System.out.println(e);
 			return null;
 		}
-		for (int i = 0; i <tm.size(); i++)
-		{
+		for (int i = 0; i < tm.size(); i++) {
 			System.out.println(tm.get(i).toString());
 		}
 		return tm;
@@ -480,7 +437,7 @@ public class DatabaseHandeller {
 
 		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		
+
 		String SQL1 = "DELETE FROM Task;";
 		String SQL2 = "DELETE FROM mileStone;";
 		String SQL3 = "DELETE FROM teamMember;";
@@ -503,21 +460,24 @@ public class DatabaseHandeller {
 	public Task addNewTask(Task task) throws SQLException { // omar
 
 		try {
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
-		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		Statement stmt1 = con.createStatement();
-		String SQL = "INSERT INTO Task (workingHours , plannedStartDate , plannedDueDate , actualStartDate , actualDueDate , parentTaskId) "
-				+ " VALUES ('"+task.getWorkingHours()+"' ,'"+ task.getPlannedStartDate().convarte_to_date_format(task.getPlannedStartDate())+"' ,'" +task.getPlannedDueDate().convarte_to_date_format(task.getPlannedDueDate())+ "','" +task.getActualStartDate().convarte_to_date_format(task.getActualStartDate())+"','" +task.getActualDueDate().convarte_to_date_format(task.getActualDueDate())+"' , 0);";
-		 stmt1.executeUpdate(SQL);
+			String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+			Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+			Statement stmt1 = con.createStatement();
+			String SQL = "INSERT INTO Task (workingHours , plannedStartDate , plannedDueDate , actualStartDate , actualDueDate , parentTaskId) "
+					+ " VALUES ('" + task.getWorkingHours() + "' ,'"
+					+ task.getPlannedStartDate().convarte_to_date_format(task.getPlannedStartDate()) + "' ,'"
+					+ task.getPlannedDueDate().convarte_to_date_format(task.getPlannedDueDate()) + "','"
+					+ task.getActualStartDate().convarte_to_date_format(task.getActualStartDate()) + "','"
+					+ task.getActualDueDate().convarte_to_date_format(task.getActualDueDate()) + "' , 0);";
+			stmt1.executeUpdate(SQL);
 
-		Statement stmt2 = con.createStatement();
-		SQL = "SELECT max(taskId) as taskid from task ";
-		ResultSet res = stmt2.executeQuery(SQL);
-		res.next();
-		task.setID(res.getInt("taskId"));
-		return task;
-		}
-		catch (Exception e) {
+			Statement stmt2 = con.createStatement();
+			SQL = "SELECT max(taskId) as taskid from task ";
+			ResultSet res = stmt2.executeQuery(SQL);
+			res.next();
+			task.setID(res.getInt("taskId"));
+			return task;
+		} catch (Exception e) {
 			System.err.println(e);
 			return null;
 		}
@@ -528,26 +488,25 @@ public class DatabaseHandeller {
 	public SubTask addNewSubTask(Task task, SubTask subTask) throws SQLException { // omar
 
 		try {
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
-		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		Statement stmt1 = con.createStatement();
-		String SQL = "INSERT INTO Task (workingHours , plannedStartDate , plannedDueDate , actualStartDate , actualDueDate , parentTaskId) "
-				+ " VALUES ('"+subTask.getWorkingHours()+"' ,'"+
-				task.getPlannedStartDate().convarte_to_date_format(subTask.getPlannedStartDate())+
-				"' ,'" +subTask.getPlannedDueDate().convarte_to_date_format(subTask.getPlannedDueDate())+
-				"','" +subTask.getActualStartDate().convarte_to_date_format(subTask.getActualStartDate())+
-				"','" +subTask.getActualDueDate().convarte_to_date_format(subTask.getActualDueDate())+
-				"' , '"+task.getID()+"');";
-		 stmt1.executeUpdate(SQL);
+			String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+			Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+			Statement stmt1 = con.createStatement();
+			String SQL = "INSERT INTO Task (workingHours , plannedStartDate , plannedDueDate , actualStartDate , actualDueDate , parentTaskId) "
+					+ " VALUES ('" + subTask.getWorkingHours() + "' ,'"
+					+ task.getPlannedStartDate().convarte_to_date_format(subTask.getPlannedStartDate()) + "' ,'"
+					+ subTask.getPlannedDueDate().convarte_to_date_format(subTask.getPlannedDueDate()) + "','"
+					+ subTask.getActualStartDate().convarte_to_date_format(subTask.getActualStartDate()) + "','"
+					+ subTask.getActualDueDate().convarte_to_date_format(subTask.getActualDueDate()) + "' , '"
+					+ task.getID() + "');";
+			stmt1.executeUpdate(SQL);
 
-		Statement stmt2 = con.createStatement();
-		SQL = "SELECT max(taskId) as subtaskid from task ";
-		ResultSet res = stmt2.executeQuery(SQL);
-		res.next();
-		subTask.setID(res.getInt("subtaskid"));
-		return subTask;
-		}
-		catch (Exception e) {
+			Statement stmt2 = con.createStatement();
+			SQL = "SELECT max(taskId) as subtaskid from task ";
+			ResultSet res = stmt2.executeQuery(SQL);
+			res.next();
+			subTask.setID(res.getInt("subtaskid"));
+			return subTask;
+		} catch (Exception e) {
 			System.err.println(e);
 			return null;
 		}
@@ -622,15 +581,15 @@ public class DatabaseHandeller {
 				+ ", parentTaskId=" + subTask.getParentID() + " WHERE taskid=" + subTask.getID() + ";";
 		ResultSet res = stmt.executeQuery(SQL);
 	}
-	
+
 	public void saveAllTasks(List<Task> tasksList) throws SQLException {
-		for(Task task : tasksList) {
+		for (Task task : tasksList) {
 			saveTask(task);
 		}
 	}
-	
+
 	public void saveAllSubTasks(List<SubTask> subTasksList) throws SQLException {
-		for(SubTask subTask : subTasksList) {
+		for (SubTask subTask : subTasksList) {
 			saveSubTask(subTask);
 		}
 	}
@@ -664,14 +623,16 @@ public class DatabaseHandeller {
 		saveAllTasks(tasksList);
 		saveAllSubTasks(subTasksList);
 	}
-	
-	private void updateDataBaseOnTask(List<Task> tasksList, List<SubTask> subTasksList, Task task, int actualWorkingDays) { //Mina.
+
+	private void updateDataBaseOnTask(List<Task> tasksList, List<SubTask> subTasksList, Task task,
+			int actualWorkingDays) { // Mina.
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	private void updateDataBaseOnSubTask(List<Task> tasksList, List<SubTask> subTasksList, SubTask subTask, int actualWorkingDays) { //Fares.
+
+	private void updateDataBaseOnSubTask(List<Task> tasksList, List<SubTask> subTasksList, SubTask subTask,
+			int actualWorkingDays) { // Fares.
 		// TODO Auto-generated method stub
-		
+
 	}
 }
