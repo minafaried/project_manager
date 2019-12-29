@@ -79,12 +79,14 @@ public class Date implements Serializable { // The date is in format (dd/mm/yyyy
 		return d.getYear()+"-"+int_to_String(d.getMonth())+"-"+int_to_String(d.getDay());
 	}
 	
-	public Date convarte_from_date_format(String d)
+	public static Date convarte_from_date_format(String d)
 	{
 	
-		String year=""+d.charAt(0)+d.charAt(1)+d.charAt(2)+d.charAt(3);
-		String month=""+d.charAt(5)+d.charAt(6);
-		String day=""+d.charAt(8)+d.charAt(9);
+		String[]s=d.split("-");
+		
+		String year=s[0];
+		String month=s[1];
+		String day=s[2];
 		Date date=new Date(Integer.parseInt(day),Integer.parseInt(month),Integer.parseInt(year),0);
 		return date;
 	}
