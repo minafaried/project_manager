@@ -74,12 +74,12 @@ public class Date implements Serializable { // The date is in format (dd/mm/yyyy
 	}
 	
 
-	public String convarte_to_date_formate(Date d)//yyyy-mm-dd
+	public String convarte_to_date_format(Date d)//yyyy-mm-dd
 	{
 		return d.getYear()+"-"+int_to_String(d.getMonth())+"-"+int_to_String(d.getDay());
 	}
 	
-	public Date convarte_from_date_formate(String d)
+	public Date convarte_from_date_format(String d)
 	{
 	
 		String year=""+d.charAt(0)+d.charAt(1)+d.charAt(2)+d.charAt(3);
@@ -118,7 +118,7 @@ public class Date implements Serializable { // The date is in format (dd/mm/yyyy
 		Calendar c = Calendar.getInstance();
 		try{
 		   //Setting the date to the given date
-		   c.setTime(sdf.parse(convarte_to_date_formate(date)));
+		   c.setTime(sdf.parse(convarte_to_date_format(date)));
 		}catch(Exception e){
 			System.err.println(e);
 		 }
@@ -127,7 +127,7 @@ public class Date implements Serializable { // The date is in format (dd/mm/yyyy
 		c.add(Calendar.DAY_OF_MONTH, days);  
 		//Date after adding the days to the given date
 		String dateformate = sdf.format(c.getTime());
-		newDate=convarte_from_date_formate(dateformate);
+		newDate=convarte_from_date_format(dateformate);
 		return newDate;
 	}
 	

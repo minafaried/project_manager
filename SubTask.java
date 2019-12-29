@@ -9,7 +9,7 @@ public class SubTask extends Task {
 	}
 
 	public SubTask() {
-		this(0, 0, null, null, null, null, 0);
+		this(0, 0, new Date(), new Date(), new Date(), new Date(),0);
 	}
 	
 	public void setParentID(int parentID) {

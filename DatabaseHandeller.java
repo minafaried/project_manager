@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DatabaseHandeller {
 
-	private String databaseIP = "DESKTOP-3RIJ3A1";
+	private String databaseIP = "DESKTOP-R87PDJN";
 
 	// Don't forget to change the local host in the connection according to which
 	// laptop we use
@@ -525,104 +525,77 @@ public class DatabaseHandeller {
 
 		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		Statement stmt = con.createStatement();
+		
 		String SQL1 = "DELETE FROM Task;";
 		String SQL2 = "DELETE FROM mileStone;";
 		String SQL3 = "DELETE FROM teamMember;";
 		String SQL4 = "DELETE FROM DEPENDS_ON;";
 		String SQL5 = "DELETE FROM WORKS_ON;";
-		ResultSet res1 = stmt.executeQuery(SQL1);
-		ResultSet res2 = stmt.executeQuery(SQL2);
-		ResultSet res3 = stmt.executeQuery(SQL3);
-		ResultSet res4 = stmt.executeQuery(SQL4);
-		ResultSet res5 = stmt.executeQuery(SQL5);
+		Statement stmt1 = con.createStatement();
+		Statement stmt2 = con.createStatement();
+		Statement stmt3 = con.createStatement();
+		Statement stmt4 = con.createStatement();
+		Statement stmt5 = con.createStatement();
+		stmt1.executeUpdate(SQL1);
+		stmt2.executeUpdate(SQL2);
+		stmt3.executeUpdate(SQL3);
+		stmt4.executeUpdate(SQL4);
+		stmt5.executeUpdate(SQL5);
 	}
 
 //---------------------------------------------------------------------
 	@SuppressWarnings("deprecation")
 	public Task addNewTask(Task task) throws SQLException { // omar
 
+		try {
 		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		Statement stmt = con.createStatement();
+		Statement stmt1 = con.createStatement();
 		String SQL = "INSERT INTO Task (workingHours , plannedStartDate , plannedDueDate , actualStartDate , actualDueDate , parentTaskId) "
-				+ " VALUES (task.getWorkingHours() , task.getPlannedStartDate() , task.getPlannedDueDate() , task.getActualStartDate() , task.getActualDueDate() , -1);";
-		ResultSet res = stmt.executeQuery(SQL);
-		Task t = new Task();
-		Date date = new Date();
-		con = DriverManager.getConnection(connectionUrl, "root", "root");
-		stmt = con.createStatement();
-		SQL = "select * from Task where taskid= LAST_VALUE(taskid) ;";
-		res = stmt.executeQuery(SQL);
+				+ " VALUES ('"+task.getWorkingHours()+"' ,'"+ task.getPlannedStartDate().convarte_to_date_format(task.getPlannedStartDate())+"' ,'" +task.getPlannedDueDate().convarte_to_date_format(task.getPlannedDueDate())+ "','" +task.getActualStartDate().convarte_to_date_format(task.getActualStartDate())+"','" +task.getActualDueDate().convarte_to_date_format(task.getActualDueDate())+"' , 0);";
+		 stmt1.executeUpdate(SQL);
+
+		Statement stmt2 = con.createStatement();
+		SQL = "SELECT max(taskId) as taskid from task ";
+		ResultSet res = stmt2.executeQuery(SQL);
 		res.next();
-		t.setID(res.getInt("taskid"));
-		t.setWorkingHours(res.getInt("workingHours"));
-		java.sql.Date sqldate;
-		sqldate = res.getDate("plannedStartDate");
-		date.setYear(sqldate.getYear());
-		date.setMonth(sqldate.getMonth());
-		date.setDay(sqldate.getDay());
-		t.setPlannedStartDate(date);
-		sqldate = res.getDate("plannedDueDate");
-		date.setYear(sqldate.getYear());
-		date.setMonth(sqldate.getMonth());
-		date.setDay(sqldate.getDay());
-		t.setPlannedDueDate(date);
-		sqldate = res.getDate("actualStartDate");
-		date.setYear(sqldate.getYear());
-		date.setMonth(sqldate.getMonth());
-		date.setDay(sqldate.getDay());
-		t.setActualStartDate(date);
-		sqldate = res.getDate("actualDueDate");
-		date.setYear(sqldate.getYear());
-		date.setMonth(sqldate.getMonth());
-		date.setDay(sqldate.getDay());
-		t.setActualDueDate(date);
-		return t;
+		task.setID(res.getInt("taskId"));
+		return task;
+		}
+		catch (Exception e) {
+			System.err.println(e);
+			return null;
+		}
 	}
 
 //---------------------------------------------------------------------
 	@SuppressWarnings("deprecation")
 	public SubTask addNewSubTask(Task task, SubTask subTask) throws SQLException { // omar
 
+		try {
 		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		Statement stmt = con.createStatement();
+		Statement stmt1 = con.createStatement();
 		String SQL = "INSERT INTO Task (workingHours , plannedStartDate , plannedDueDate , actualStartDate , actualDueDate , parentTaskId) "
-				+ " VALUES (subTask.getWorkingHours() , subTask.getPlannedStartDate() , subTask.getPlannedDueDate() , subTask.getActualStartDate() , subTask.getActualDueDate() , task.getID());";
-		ResultSet res = stmt.executeQuery(SQL);
-		SubTask s = new SubTask();
-		Date date = new Date();
-		con = DriverManager.getConnection(connectionUrl, "root", "root");
-		stmt = con.createStatement();
-		SQL = "select * from Task where taskid= LAST_VALUE(taskid) ;";
-		res = stmt.executeQuery(SQL);
+				+ " VALUES ('"+subTask.getWorkingHours()+"' ,'"+
+				task.getPlannedStartDate().convarte_to_date_format(subTask.getPlannedStartDate())+
+				"' ,'" +subTask.getPlannedDueDate().convarte_to_date_format(subTask.getPlannedDueDate())+
+				"','" +subTask.getActualStartDate().convarte_to_date_format(subTask.getActualStartDate())+
+				"','" +subTask.getActualDueDate().convarte_to_date_format(subTask.getActualDueDate())+
+				"' , '"+task.getID()+"');";
+		 stmt1.executeUpdate(SQL);
+
+		Statement stmt2 = con.createStatement();
+		SQL = "SELECT max(taskId) as subtaskid from task ";
+		ResultSet res = stmt2.executeQuery(SQL);
 		res.next();
-		s.setID(res.getInt("taskid"));
-		s.setWorkingHours(res.getInt("workingHours"));
-		java.sql.Date sqldate;
-		sqldate = res.getDate("plannedStartDate");
-		date.setYear(sqldate.getYear());
-		date.setMonth(sqldate.getMonth());
-		date.setDay(sqldate.getDay());
-		s.setPlannedStartDate(date);
-		sqldate = res.getDate("plannedDueDate");
-		date.setYear(sqldate.getYear());
-		date.setMonth(sqldate.getMonth());
-		date.setDay(sqldate.getDay());
-		s.setPlannedDueDate(date);
-		sqldate = res.getDate("actualStartDate");
-		date.setYear(sqldate.getYear());
-		date.setMonth(sqldate.getMonth());
-		date.setDay(sqldate.getDay());
-		s.setActualStartDate(date);
-		sqldate = res.getDate("actualDueDate");
-		date.setYear(sqldate.getYear());
-		date.setMonth(sqldate.getMonth());
-		date.setDay(sqldate.getDay());
-		s.setActualDueDate(date);
-		s.setParentID(res.getInt("parentTaskId"));
-		return s;
+		subTask.setID(res.getInt("subtaskid"));
+		return subTask;
+		}
+		catch (Exception e) {
+			System.err.println(e);
+			return null;
+		}
 	}
 
 //---------------------------------------------------------------------
