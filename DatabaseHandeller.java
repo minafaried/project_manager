@@ -12,7 +12,10 @@ public class DatabaseHandeller {
 
 	}
 
-//1433
+	private Date convertSqltoDate(java.sql.Date sqldate)
+	{
+		return Date.convarte_from_date_format(sqldate.toString());
+	}
 	@SuppressWarnings("deprecation")
 	public List<Task> getAllTasks() { // mina
 		List<Task> tasks = new ArrayList<Task>();
@@ -23,7 +26,6 @@ public class DatabaseHandeller {
 				Statement stmt = con.createStatement();) {
 			String SQL = "SELECT  * FROM task;";
 			ResultSet res = stmt.executeQuery(SQL);
-			Date tempdate = new Date();
 			java.sql.Date sqldate;
 			// Iterate through the data in the result set and display it.
 			while (res.next()) {
@@ -32,37 +34,21 @@ public class DatabaseHandeller {
 					t.setID(res.getInt("taskId"));
 					t.setWorkingHours(res.getInt("workingHours"));
 
-					sqldate = res.getDate("plannedStartDate");
+					
+					sqldate = new java.sql.Date(res.getDate("plannedStartDate").getTime());
+					
+					t.setPlannedStartDate(convertSqltoDate(sqldate));
+					sqldate = new java.sql.Date(res.getDate("plannedDueDate").getTime());
+					
+					t.setPlannedDueDate(convertSqltoDate(sqldate));
 
-					tempdate.setYear(sqldate.getYear());
-					tempdate.setMonth(sqldate.getMonth());
-					tempdate.setDay(sqldate.getDay());
-					// tempdate.setHours(sqldate.getHours());
-					t.setPlannedStartDate(tempdate);
+					sqldate =new java.sql.Date(res.getDate("actualStartDate").getTime());
 
-					sqldate = res.getDate("plannedDueDate");
-
-					tempdate.setYear(sqldate.getYear());
-					tempdate.setMonth(sqldate.getMonth());
-					tempdate.setDay(sqldate.getDay());
-					// tempdate.setHours(sqldate.getHours());
-					t.setPlannedDueDate(tempdate);
-
-					sqldate = res.getDate("actualStartDate");
-
-					tempdate.setYear(sqldate.getYear());
-					tempdate.setMonth(sqldate.getMonth());
-					tempdate.setDay(sqldate.getDay());
-					// tempdate.setHours(sqldate.getHours());
-					t.setActualStartDate(tempdate);
+					t.setActualStartDate(convertSqltoDate(sqldate));
 
 					sqldate = res.getDate("actualDueDate");
 
-					tempdate.setYear(sqldate.getYear());
-					tempdate.setMonth(sqldate.getMonth());
-					tempdate.setDay(sqldate.getDay());
-					// tempdate.setHours(sqldate.getHours());
-					t.setActualDueDate(tempdate);
+					t.setActualDueDate(convertSqltoDate(sqldate));
 					// t.display();
 					tasks.add(t);
 				}
@@ -84,7 +70,7 @@ public class DatabaseHandeller {
 				Statement stmt = con.createStatement();) {
 			String SQL = "SELECT  * FROM task where taskid=" + taskID + ";";
 			ResultSet res = stmt.executeQuery(SQL);
-			Date tempdate = new Date();
+			
 			java.sql.Date sqldate;
 			// Iterate through the data in the result set and display it.
 			res.next();
@@ -94,35 +80,19 @@ public class DatabaseHandeller {
 
 			sqldate = res.getDate("plannedStartDate");
 
-			tempdate.setYear(sqldate.getYear());
-			tempdate.setMonth(sqldate.getMonth());
-			tempdate.setDay(sqldate.getDay());
-			// tempdate.setHours(sqldate.getHours());
-			t.setPlannedStartDate(tempdate);
+			t.setPlannedStartDate(convertSqltoDate(sqldate));
 
 			sqldate = res.getDate("plannedDueDate");
 
-			tempdate.setYear(sqldate.getYear());
-			tempdate.setMonth(sqldate.getMonth());
-			tempdate.setDay(sqldate.getDay());
-			// tempdate.setHours(sqldate.getHours());
-			t.setPlannedDueDate(tempdate);
+			t.setPlannedDueDate(convertSqltoDate(sqldate));
 
 			sqldate = res.getDate("actualStartDate");
 
-			tempdate.setYear(sqldate.getYear());
-			tempdate.setMonth(sqldate.getMonth());
-			tempdate.setDay(sqldate.getDay());
-			// tempdate.setHours(sqldate.getHours());
-			t.setActualStartDate(tempdate);
+			t.setActualStartDate(convertSqltoDate(sqldate));
 
 			sqldate = res.getDate("actualDueDate");
 
-			tempdate.setYear(sqldate.getYear());
-			tempdate.setMonth(sqldate.getMonth());
-			tempdate.setDay(sqldate.getDay());
-			// tempdate.setHours(sqldate.getHours());
-			t.setActualDueDate(tempdate);
+			t.setActualDueDate(convertSqltoDate(sqldate));
 			// t.display();
 			return t;
 		} catch (Exception e) {
@@ -142,7 +112,7 @@ public class DatabaseHandeller {
 				Statement stmt = con.createStatement();) {
 			String SQL = "SELECT  * FROM task;";
 			ResultSet res = stmt.executeQuery(SQL);
-			Date tempdate = new Date();
+			
 			java.sql.Date sqldate;
 			// Iterate through the data in the result set and display it.
 			while (res.next()) {
@@ -155,35 +125,20 @@ public class DatabaseHandeller {
 
 					sqldate = res.getDate("plannedStartDate");
 
-					tempdate.setYear(sqldate.getYear());
-					tempdate.setMonth(sqldate.getMonth());
-					tempdate.setDay(sqldate.getDay());
-					// tempdate.setHours(sqldate.getHours());
-					t.setPlannedStartDate(tempdate);
+					t.setPlannedStartDate(convertSqltoDate(sqldate));
 
 					sqldate = res.getDate("plannedDueDate");
 
-					tempdate.setYear(sqldate.getYear());
-					tempdate.setMonth(sqldate.getMonth());
-					tempdate.setDay(sqldate.getDay());
-					// tempdate.setHours(sqldate.getHours());
-					t.setPlannedDueDate(tempdate);
+					t.setPlannedDueDate(convertSqltoDate(sqldate));
 
 					sqldate = res.getDate("actualStartDate");
-
-					tempdate.setYear(sqldate.getYear());
-					tempdate.setMonth(sqldate.getMonth());
-					tempdate.setDay(sqldate.getDay());
-					// tempdate.setHours(sqldate.getHours());
-					t.setActualStartDate(tempdate);
+					convertSqltoDate(sqldate);
+					
+					t.setActualStartDate(convertSqltoDate(sqldate));
 
 					sqldate = res.getDate("actualDueDate");
 
-					tempdate.setYear(sqldate.getYear());
-					tempdate.setMonth(sqldate.getMonth());
-					tempdate.setDay(sqldate.getDay());
-					// tempdate.setHours(sqldate.getHours());
-					t.setActualDueDate(tempdate);
+					t.setActualDueDate(convertSqltoDate(sqldate));
 
 					// t.display();
 					subtasks.add(t);
