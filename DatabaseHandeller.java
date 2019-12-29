@@ -435,24 +435,39 @@ public class DatabaseHandeller {
 //*********************************************************************
 	public void resetDataBase() throws ClassNotFoundException, SQLException { // omar
 
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-
-		String SQL1 = "DELETE FROM Task;";
-		String SQL2 = "DELETE FROM mileStone;";
-		String SQL3 = "DELETE FROM teamMember;";
-		String SQL4 = "DELETE FROM DEPENDS_ON;";
-		String SQL5 = "DELETE FROM WORKS_ON;";
+		
+		
+		String SQL1 = "DELETE FROM WORKS_ON;";
+		String SQL2 = "DELETE FROM DEPENDS_ON;";
+		String SQL3 = "DELETE FROM Task;";
+		String resetId = "DBCC CHECKIDENT (Task, RESEED,0)";
+		String SQL4 = "DELETE FROM mileStone;";
+		String resetId1 = "DBCC CHECKIDENT (mileStone, RESEED,0)";
+		String SQL5 = "DELETE FROM teamMember;";
+		String resetId2 = "DBCC CHECKIDENT (teamMember, RESEED,0)";
+		//String SQL6 = "DBCC CHECKIDENT ('PM_db', RESEED, 1)";
+		
 		Statement stmt1 = con.createStatement();
 		Statement stmt2 = con.createStatement();
 		Statement stmt3 = con.createStatement();
 		Statement stmt4 = con.createStatement();
 		Statement stmt5 = con.createStatement();
+		Statement stmt6 = con.createStatement();
+		Statement stmt7 = con.createStatement();
+		Statement stmt8 = con.createStatement();
+		Statement stmt9 = con.createStatement();
+		
 		stmt1.executeUpdate(SQL1);
 		stmt2.executeUpdate(SQL2);
 		stmt3.executeUpdate(SQL3);
 		stmt4.executeUpdate(SQL4);
 		stmt5.executeUpdate(SQL5);
+		stmt6.executeUpdate(resetId);
+		stmt7.executeUpdate(resetId1);
+		stmt8.executeUpdate(resetId2);
+		
 	}
 
 //---------------------------------------------------------------------
