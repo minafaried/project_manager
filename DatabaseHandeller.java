@@ -433,7 +433,7 @@ public class DatabaseHandeller {
 	}
 
 //*********************************************************************
-	public void resetDataBase() throws ClassNotFoundException, SQLException { // omar
+	public void resetDataBase() throws ClassNotFoundException, SQLException { // test done// omar
 
 		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
@@ -528,7 +528,7 @@ public class DatabaseHandeller {
 	}
 
 //---------------------------------------------------------------------
-	public TeamMember addNewTeamMember(TeamMember teamMember) throws SQLException {// omar
+	public TeamMember addNewTeamMember(TeamMember teamMember) throws SQLException {// test done // omar
 
 		String connectionUrl = "jdbc:sqlserver://"+ databaseIP +";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
