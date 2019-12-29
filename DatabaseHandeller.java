@@ -515,23 +515,28 @@ public class DatabaseHandeller {
 //---------------------------------------------------------------------
 	public TeamMember addNewTeamMember(TeamMember teamMember) throws SQLException {// omar
 
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+ databaseIP +";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		Statement stmt = con.createStatement();
-		String SQL = "INSERT INTO teamMember (name , title , workingHours) "
-				+ " VALUES (teamMember.getName() , teamMember.getTitle() , teamMember.getWorkingHours());";
-		ResultSet res = stmt.executeQuery(SQL);
-		con = DriverManager.getConnection(connectionUrl, "root", "root");
-		stmt = con.createStatement();
-		SQL = "select * from teamMember where teamMemberid= LAST_VALUE(teamMemberid) ;";
-		res = stmt.executeQuery(SQL);
-		res.next();
-		TeamMember tm = new TeamMember();
-		tm.setID(res.getInt("teamMemberid"));
-		tm.setName(res.getString("name"));
-		tm.setTitle(res.getString("title"));
-		tm.setWorkingHours(res.getInt("workingHours"));
-		return tm;
+		try {
+		Statement stat = con.createStatement();
+		String SQL = "insert into teamMember(name,title,teamMember.workingHours) values" +" ('"+teamMember.getName()+"','"+ teamMember.getTitle()+"'," +teamMember.getWorkingHours()+")";
+		stat.executeUpdate(SQL);
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		try {
+			String sql = "select max(teamMemberId) as ID from teamMember";
+			Statement stat1 = con.createStatement();
+			ResultSet set1 = stat1.executeQuery(sql);
+			set1.next();
+			teamMember.setID(set1.getInt("ID"));	
+			return teamMember;
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		return null;
 	}
 
 //---------------------------------------------------------------------
