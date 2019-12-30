@@ -555,25 +555,38 @@ public class DatabaseHandeller {
 	}
 
 //---------------------------------------------------------------------
-	public void assignTeamMemberToTask(TeamMember teamMember, Task task) throws SQLException {// omar
+	//---------------------------------------------------------------------
+	public void assignTeamMemberToTask(TeamMember teamMember, Task task) throws SQLException { // test done // omar
 
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+ databaseIP +";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		try {
 		Statement stmt = con.createStatement();
 		String SQL = "INSERT INTO WORKS_ON (taskid , teamMemberid , workingDays) "
-				+ " VALUES (task.getID() , teamMember.getID() , wD);";
-		ResultSet res = stmt.executeQuery(SQL);
+				+ " VALUES (" +task.getID()+ "," + teamMember.getID()+ ","+ 0 +");";
+		stmt.executeUpdate(SQL);
+
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
 	}
 
 //---------------------------------------------------------------------
-	public void assignTeamMemberToSubTask(TeamMember teamMember, SubTask subTask) throws SQLException {// omar
+	public void assignTeamMemberToSubTask(TeamMember teamMember, SubTask subTask) throws SQLException { // test done// omar
 
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+ databaseIP +";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		try {
 		Statement stmt = con.createStatement();
 		String SQL = "INSERT INTO WORKS_ON (taskid , teamMemberid , workingDays) "
-				+ " VALUES (subTask.getID() , teamMember.getID() , wD);";
-		ResultSet res = stmt.executeQuery(SQL);
+				+ " VALUES (" +subTask.getID()+ "," + teamMember.getID()+ ","+ 0 +");";
+		stmt.executeUpdate(SQL);
+
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
 	}
 
 //---------------------------------------------------------------------
