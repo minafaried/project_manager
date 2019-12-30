@@ -196,16 +196,16 @@ public class Interface {
 				List<Task> tasksList = controlUnit.loadTasks();
 				List<SubTask> subTasksList = controlUnit.loadSubTasks();
 
-				// Some Code.
 				int[]x_axis=new int[tasksList.size()+subTasksList.size()];
 				Date []y_axis_start=new Date[tasksList.size()+subTasksList.size()];
 				Date []y_axis_finished=new Date[tasksList.size()+subTasksList.size()];
+				
 				for (int i = 0; i < tasksList.size(); i++) {
 					x_axis[i]=tasksList.get(i).getID();
 					y_axis_start[i]=tasksList.get(i).getPlannedStartDate();
 					y_axis_finished[i]=tasksList.get(i).getPlannedDueDate();
 				}
-				for (int i = 0; tasksList.size() <tasksList.size()+subTasksList.size() ; i++) {
+				for (int i = 0 + tasksList.size(); i < tasksList.size()+subTasksList.size() ; i++) {
 					x_axis[i]=subTasksList.get(i-tasksList.size()).getID();
 					y_axis_start[i]=subTasksList.get(i-tasksList.size()).getPlannedStartDate();
 					y_axis_finished[i]=subTasksList.get(i-tasksList.size()).getPlannedDueDate();
@@ -218,7 +218,6 @@ public class Interface {
 				List<Task> tasksList = controlUnit.loadTasks();
 				List<SubTask> subTasksList = controlUnit.loadSubTasks();
 
-				// Some Code.
 				int[]x_axis=new int[tasksList.size()+subTasksList.size()];
 				Date []y_axis_start=new Date[tasksList.size()+subTasksList.size()];
 				Date []y_axis_finished=new Date[tasksList.size()+subTasksList.size()];
@@ -329,10 +328,9 @@ public class Interface {
 				int taskID = ioHandeller.taskIDInput();
 				int acutalWorkingHours = ioHandeller.actualWorkingHoursInput();
 				
-				
 				Task task = controlUnit.loadTask(taskID);
 				task.setWorkingHours(acutalWorkingHours);
-				int actualWorkingDays = acutalWorkingHours * currentProject.getWorkingHours();
+				int actualWorkingDays = acutalWorkingHours / currentProject.getWorkingHours();
 				controlUnit.saveTask(task, actualWorkingDays);
 			}
 			
@@ -342,7 +340,7 @@ public class Interface {
 				
 				SubTask subTask = controlUnit.loadSubTask(taskID);
 				subTask.setWorkingHours(acutalWorkingHours);
-				int actualWorkingDays = acutalWorkingHours * currentProject.getWorkingHours();
+				int actualWorkingDays = acutalWorkingHours / currentProject.getWorkingHours();
 				controlUnit.saveSubTask(subTask, actualWorkingDays);
 			}
 			

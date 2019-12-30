@@ -10,8 +10,8 @@ import java.io.PrintWriter;
 //****************************************************************************
 public class FileHandeller { // omar
 	final private String projectData = "ProjectData.txt";
-	final private String beforeStartPlanFile = "BeforeStart.xlsx";
-	final private String afterFinishPlanFile = "AfterFinish.xlsx";
+	final private String beforeStartPlanFile = "BeforeStart.csv";
+	final private String afterFinishPlanFile = "AfterFinish.csv";
 
 	public FileHandeller() {
 		// System.out.println("filehandeller is called");
@@ -42,24 +42,22 @@ public class FileHandeller { // omar
 	public void constructProjectPlanBeforeStart(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished)
 			throws FileNotFoundException {
 
-		FileOutputStream file = new FileOutputStream(beforeStartPlanFile);
-		PrintWriter print = new PrintWriter(file);
-		print.println("x_axis , y_axis_start , y_axis_finished");
-		for (int i = 0; i < x_axis.length; i++) {
-			print.println(x_axis[i] + "," + y_axis_start[i] + "," + y_axis_finished[i]);
-		}
-		print.close();
+		constructExcelFile(x_axis, y_axis_start, y_axis_finished, beforeStartPlanFile);
 	}
 
 //----------------------------------------------------------------------------
 	public void constructProjectPlanAfterFinish(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished)
 			throws FileNotFoundException {
-
-		FileOutputStream file = new FileOutputStream(afterFinishPlanFile);
+		
+		constructExcelFile(x_axis, y_axis_start, y_axis_finished, afterFinishPlanFile);
+	}
+	private void constructExcelFile(int[] x_axis, Date[] y_axis_start, Date[] y_axis_finished, String fileName) throws FileNotFoundException {
+		FileOutputStream file = new FileOutputStream(fileName);
 		PrintWriter print = new PrintWriter(file);
-		print.println("x_axis , y_axis_start , y_axis_finished");
+		print.println("ID , Start , Finish");
 		for (int i = 0; i < x_axis.length; i++) {
-			print.println(x_axis[i] + "," + y_axis_start[i] + "," + y_axis_finished[i]);
+			print.println(x_axis[i] + "," + y_axis_start[i].convarte_to_date_format(y_axis_start[i]) + ","
+					+ y_axis_finished[i].convarte_to_date_format(y_axis_finished[i]));
 		}
 		print.close();
 	}

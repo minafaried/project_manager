@@ -267,15 +267,8 @@ public class IOHandeller { // Badr
 	public int actualWorkingHoursInput() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Insert Actual Working Hours.....");
-		while (true) {
-			int ex = scanner.nextInt();
-			if (ex < 0 || ex > 24)
-				System.out.println("Insert Correctly Please......");
-			else {
-				System.out.println();
-				return ex;
-			}
-		}
+		int hours = scanner.nextInt(); scanner.nextLine();
+		return hours;
 	}
 
 	public void displayDeliverableNotFoundError() {

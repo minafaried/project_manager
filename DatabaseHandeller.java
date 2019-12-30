@@ -4,10 +4,8 @@ import java.sql.*;
 
 public class DatabaseHandeller {
 
-	private String databaseIP = "DESKTOP-R87PDJN";
+	private String databaseIP = "localhost";
 
-	// Don't forget to change the local host in the connection according to which
-	// laptop we use
 	public DatabaseHandeller() {
 
 	}
@@ -433,41 +431,26 @@ public class DatabaseHandeller {
 	}
 
 //*********************************************************************
-	public void resetDataBase() throws ClassNotFoundException, SQLException { // test done// omar
+	public void resetDataBase() throws ClassNotFoundException, SQLException { // omar
 
-		String connectionUrl = "jdbc:sqlserver://"+databaseIP+";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		
-		
-		String SQL1 = "DELETE FROM WORKS_ON;";
-		String SQL2 = "DELETE FROM DEPENDS_ON;";
-		String SQL3 = "DELETE FROM Task;";
-		String resetId = "DBCC CHECKIDENT (Task, RESEED,0)";
-		String SQL4 = "DELETE FROM mileStone;";
-		String resetId1 = "DBCC CHECKIDENT (mileStone, RESEED,0)";
-		String SQL5 = "DELETE FROM teamMember;";
-		String resetId2 = "DBCC CHECKIDENT (teamMember, RESEED,0)";
-		//String SQL6 = "DBCC CHECKIDENT ('PM_db', RESEED, 1)";
-		
+
+		String SQL1 = "DELETE FROM Task;";
+		String SQL2 = "DELETE FROM mileStone;";
+		String SQL3 = "DELETE FROM teamMember;";
+		String SQL4 = "DELETE FROM DEPENDS_ON;";
+		String SQL5 = "DELETE FROM WORKS_ON;";
 		Statement stmt1 = con.createStatement();
 		Statement stmt2 = con.createStatement();
 		Statement stmt3 = con.createStatement();
 		Statement stmt4 = con.createStatement();
 		Statement stmt5 = con.createStatement();
-		Statement stmt6 = con.createStatement();
-		Statement stmt7 = con.createStatement();
-		Statement stmt8 = con.createStatement();
-		Statement stmt9 = con.createStatement();
-		
 		stmt1.executeUpdate(SQL1);
 		stmt2.executeUpdate(SQL2);
 		stmt3.executeUpdate(SQL3);
 		stmt4.executeUpdate(SQL4);
 		stmt5.executeUpdate(SQL5);
-		stmt6.executeUpdate(resetId);
-		stmt7.executeUpdate(resetId1);
-		stmt8.executeUpdate(resetId2);
-		
 	}
 
 //---------------------------------------------------------------------
@@ -528,65 +511,47 @@ public class DatabaseHandeller {
 	}
 
 //---------------------------------------------------------------------
-	public TeamMember addNewTeamMember(TeamMember teamMember) throws SQLException {// test done // omar
+	public TeamMember addNewTeamMember(TeamMember teamMember) throws SQLException {// omar
 
-		String connectionUrl = "jdbc:sqlserver://"+ databaseIP +";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		try {
-		Statement stat = con.createStatement();
-		String SQL = "insert into teamMember(name,title,teamMember.workingHours) values" +" ('"+teamMember.getName()+"','"+ teamMember.getTitle()+"'," +teamMember.getWorkingHours()+")";
-		stat.executeUpdate(SQL);
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
-		}
-		try {
-			String sql = "select max(teamMemberId) as ID from teamMember";
-			Statement stat1 = con.createStatement();
-			ResultSet set1 = stat1.executeQuery(sql);
-			set1.next();
-			teamMember.setID(set1.getInt("ID"));	
-			return teamMember;
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
-		}
-		return null;
+		Statement stmt = con.createStatement();
+		String SQL = "INSERT INTO teamMember (name , title , workingHours) "
+				+ " VALUES (teamMember.getName() , teamMember.getTitle() , teamMember.getWorkingHours());";
+		ResultSet res = stmt.executeQuery(SQL);
+		con = DriverManager.getConnection(connectionUrl, "root", "root");
+		stmt = con.createStatement();
+		SQL = "select * from teamMember where teamMemberid= LAST_VALUE(teamMemberid) ;";
+		res = stmt.executeQuery(SQL);
+		res.next();
+		TeamMember tm = new TeamMember();
+		tm.setID(res.getInt("teamMemberid"));
+		tm.setName(res.getString("name"));
+		tm.setTitle(res.getString("title"));
+		tm.setWorkingHours(res.getInt("workingHours"));
+		return tm;
 	}
 
 //---------------------------------------------------------------------
-	//---------------------------------------------------------------------
-	public void assignTeamMemberToTask(TeamMember teamMember, Task task) throws SQLException { // test done // omar
+	public void assignTeamMemberToTask(TeamMember teamMember, Task task) throws SQLException {// omar
 
-		String connectionUrl = "jdbc:sqlserver://"+ databaseIP +";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		try {
 		Statement stmt = con.createStatement();
 		String SQL = "INSERT INTO WORKS_ON (taskid , teamMemberid , workingDays) "
-				+ " VALUES (" +task.getID()+ "," + teamMember.getID()+ ","+ 0 +");";
-		stmt.executeUpdate(SQL);
-
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
-		}
+				+ " VALUES (task.getID() , teamMember.getID() , wD);";
+		ResultSet res = stmt.executeQuery(SQL);
 	}
 
 //---------------------------------------------------------------------
-	public void assignTeamMemberToSubTask(TeamMember teamMember, SubTask subTask) throws SQLException { // test done// omar
+	public void assignTeamMemberToSubTask(TeamMember teamMember, SubTask subTask) throws SQLException {// omar
 
-		String connectionUrl = "jdbc:sqlserver://"+ databaseIP +";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		try {
 		Statement stmt = con.createStatement();
 		String SQL = "INSERT INTO WORKS_ON (taskid , teamMemberid , workingDays) "
-				+ " VALUES (" +subTask.getID()+ "," + teamMember.getID()+ ","+ 0 +");";
-		stmt.executeUpdate(SQL);
-
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
-		}
+				+ " VALUES (subTask.getID() , teamMember.getID() , wD);";
+		ResultSet res = stmt.executeQuery(SQL);
 	}
 
 //---------------------------------------------------------------------
@@ -595,11 +560,14 @@ public class DatabaseHandeller {
 		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 		Statement stmt = con.createStatement();
-		String SQL = "UPDATE Task set workingHours=" + task.getWorkingHours() + ", plannedStartDate="
-				+ task.getPlannedStartDate() + ", plannedDueDate=" + task.getPlannedDueDate() + ", actualStartDate="
-				+ task.getActualStartDate() + ", actualDueDate=" + task.getActualDueDate() + ", parentTaskId=" + -1
-				+ " WHERE taskid=" + task.getID() + ";";
-		ResultSet res = stmt.executeQuery(SQL);
+		String SQL = "UPDATE Task set workingHours='" + task.getWorkingHours() 
+				+ "', plannedStartDate= '" + task.getPlannedStartDate().convarte_to_date_format(task.getPlannedStartDate())
+				+ "', plannedDueDate= '" + task.getPlannedDueDate().convarte_to_date_format(task.getPlannedDueDate())
+				+ "', actualStartDate= '"+ task.getActualStartDate().convarte_to_date_format(task.getActualStartDate())
+				+ "', actualDueDate= '" + task.getActualDueDate().convarte_to_date_format(task.getActualDueDate())
+				+ "', parentTaskId= '" + 0
+				+ " WHERE taskid= '" + task.getID() + "';";
+		stmt.executeUpdate(SQL);
 	}
 
 //---------------------------------------------------------------------
@@ -608,41 +576,41 @@ public class DatabaseHandeller {
 		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
 		Statement stmt = con.createStatement();
-		String SQL = "UPDATE Task set workingHours=" + subTask.getWorkingHours() + ", plannedStartDate="
-				+ subTask.getPlannedStartDate() + ", plannedDueDate=" + subTask.getPlannedDueDate()
-				+ ", actualStartDate=" + subTask.getActualStartDate() + ", actualDueDate=" + subTask.getActualDueDate()
-				+ ", parentTaskId=" + subTask.getParentID() + " WHERE taskid=" + subTask.getID() + ";";
-		ResultSet res = stmt.executeQuery(SQL);
+		String SQL = "UPDATE Task set workingHours='" + subTask.getWorkingHours() 
+				+ "', plannedStartDate= '" + subTask.getPlannedStartDate().convarte_to_date_format(subTask.getPlannedStartDate())
+				+ "', plannedDueDate= '" + subTask.getPlannedDueDate().convarte_to_date_format(subTask.getPlannedDueDate())
+				+ "', actualStartDate= '"+ subTask.getActualStartDate().convarte_to_date_format(subTask.getActualStartDate())
+				+ "', actualDueDate= '" + subTask.getActualDueDate().convarte_to_date_format(subTask.getActualDueDate())
+				+ "', parentTaskId= '" + subTask.getParentID()
+				+ " WHERE taskid= '" + subTask.getID() + "';";
+		stmt.executeUpdate(SQL);
 	}
 
 	public void saveAllTasks(List<Task> tasksList) throws SQLException {
-		for(Task task : tasksList) {
+		for (Task task : tasksList) {
 			saveTask(task);
 		}
 	}
-	
+
 	public void saveAllSubTasks(List<SubTask> subTasksList) throws SQLException {
-		for(SubTask subTask : subTasksList) {
+		for (SubTask subTask : subTasksList) {
 			saveSubTask(subTask);
 		}
 	}
 
-	public void assignTaskToDependentTask(Task task, Task dependentTask) throws SQLException { // Mark the task, so it depends on the
+	public void assignTaskToDependentTask(Task task, Task dependentTask) { // Mark the task, so it depends on the
 																			// dependent task.
-		String connectionUrl = "jdbc:sqlserver://"+ databaseIP +";databaseName=PM_db;integratedsecurity=true;";
-		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-		try {
-		Statement stmt = con.createStatement();
-		String SQL = "INSERT INTO DEPENDS_ON (taskId , dependsONTaskId) "
-				+ " VALUES (" +task.getID()+ "," + dependentTask.getID()+ ");";
-		stmt.executeUpdate(SQL);
+		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
 
-		}catch (Exception e) {
-			// TODO: handle exception
+		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+				Statement stmt = con.createStatement();) {
+			String SQL = "insert into DEPENDS_ON (taskId,dependsONTaskId) values (" + task.getID() + ","
+					+ dependentTask.getID() + ");";
+			stmt.executeUpdate(SQL);
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-
 
 	public void modifyTaskWorkingHours(Task task, int actualWorkingDays) throws SQLException {
 		List<Task> tasksList = getAllTasks();
