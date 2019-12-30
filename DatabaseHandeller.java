@@ -616,30 +616,33 @@ public class DatabaseHandeller {
 	}
 
 	public void saveAllTasks(List<Task> tasksList) throws SQLException {
-		for (Task task : tasksList) {
+		for(Task task : tasksList) {
 			saveTask(task);
 		}
 	}
-
+	
 	public void saveAllSubTasks(List<SubTask> subTasksList) throws SQLException {
-		for (SubTask subTask : subTasksList) {
+		for(SubTask subTask : subTasksList) {
 			saveSubTask(subTask);
 		}
 	}
 
-	public void assignTaskToDependentTask(Task task, Task dependentTask) { // Mark the task, so it depends on the
+	public void assignTaskToDependentTask(Task task, Task dependentTask) throws SQLException { // Mark the task, so it depends on the
 																			// dependent task.
-		String connectionUrl = "jdbc:sqlserver://" + databaseIP + ";databaseName=PM_db;integratedsecurity=true;";
+		String connectionUrl = "jdbc:sqlserver://"+ databaseIP +";databaseName=PM_db;integratedsecurity=true;";
+		Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
+		try {
+		Statement stmt = con.createStatement();
+		String SQL = "INSERT INTO DEPENDS_ON (taskId , dependsONTaskId) "
+				+ " VALUES (" +task.getID()+ "," + dependentTask.getID()+ ");";
+		stmt.executeUpdate(SQL);
 
-		try (Connection con = DriverManager.getConnection(connectionUrl, "root", "root");
-				Statement stmt = con.createStatement();) {
-			String SQL = "insert into DEPENDS_ON (taskId,dependsONTaskId) values (" + task.getID() + ","
-					+ dependentTask.getID() + ");";
-			stmt.executeUpdate(SQL);
-		} catch (Exception e) {
+		}catch (Exception e) {
+			// TODO: handle exception
 			System.out.println(e);
 		}
 	}
+
 
 	public void modifyTaskWorkingHours(Task task, int actualWorkingDays) throws SQLException {
 		List<Task> tasksList = getAllTasks();
