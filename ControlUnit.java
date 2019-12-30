@@ -161,7 +161,7 @@ public class ControlUnit {
 		return null;
 	}
 
-	public void addDependentTask(Task task, Task dependentTask) {
+	public void addDependentTask(Task task, Task dependentTask) throws SQLException {
 		dataBaseHandeller.assignTaskToDependentTask(task, dependentTask);
 
 	}
